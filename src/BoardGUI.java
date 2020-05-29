@@ -1,8 +1,9 @@
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.*;
+import java.io.*;
+import javax.imageio.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 
 public class BoardGUI extends JFrame{
 	
@@ -19,7 +20,15 @@ public class BoardGUI extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		
-		Background = new ImageIcon(BlueMarble.class.getResource("../../images/background.jpg").getImage();
+		try {
+			File sourceimage = new File("images/background.jpg");
+			Background = ImageIO.read(sourceimage);
+		}catch(Exception e) {
+			
+		}
+		
+		
+		
 	}
 	
 	
@@ -27,7 +36,12 @@ public class BoardGUI extends JFrame{
 		screenImage = createImage(BlueMarble.SCREEM_WIDTH, BlueMarble.SCREEN_HEIGHT);
 		screenGraphic = screenImage.getGraphics();
 		screenDraw(screenGraphic);
-		g.drawImage(screenImage,0,0,null)
+		g.drawImage(screenImage,0,0,null);
+	}
+	
+	public void screenDraw(Graphics g) {
+		g.drawImage(Background, 0, 0, null);
+		this.repaint();
 	}
 	
 	

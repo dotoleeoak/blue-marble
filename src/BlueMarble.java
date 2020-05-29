@@ -1,5 +1,8 @@
 import java.io.*;
 import java.util.Scanner;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class BlueMarble {
 
@@ -8,6 +11,11 @@ public class BlueMarble {
 	
 	public static void main(String[] args) {
 		BoardGUI a = new BoardGUI();
+
+		
+		
+		
+		
 		//플레이어 수를 입력 받는 단계
 		int num_player = 0;	//플레이어 수
 		Player[] player_list = new Player[4]; //플레이어 리스트 저장
