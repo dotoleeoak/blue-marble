@@ -10,7 +10,7 @@ public class BlueMarble {
 	public static final int SCREEN_HEIGHT = 600;
 	
 	public static void main(String[] args) {
-		BoardGUI a = new BoardGUI();
+		BoardGUI2 a = new BoardGUI2();
 
 		
 		

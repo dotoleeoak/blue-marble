@@ -15,16 +15,19 @@ public class PlayerGUI extends JPanel {
 	
 	public PlayerGUI(String _name, int id, int _x, int _y) {
 		
-		setLayout(new GridLayout(2,2));
+		//this.setLayout(new GridLayout(2,2));
+		this.setLayout(null);
 		setVisible(true);
-		setSize(300,100);
-		setLocation(_x, _y);
+		this.setBounds(_x, _y, 0, 100);
 		this.setBackground(Color.WHITE);
 		
 		labelNameL = new JLabel("이름");
 		labelMoneyL = new JLabel("소지금");
 		labelNameR = new JLabel("이름R");
 		labelMoneyR = new JLabel("소지금R");
+		
+		labelNameL.setBounds(0,0,100,50);
+		labelNameL.setVisible(true);
 		
 		this.add(labelNameL);
 		this.add(labelNameR);

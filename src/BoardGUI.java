@@ -15,22 +15,35 @@ public class BoardGUI extends JFrame{
 	public BoardGUI(){
 		
 		setTitle("Blue Marble");
+		setLayout(new GridLayout(3,1));
 		setSize(BlueMarble.SCREEM_WIDTH, BlueMarble.SCREEN_HEIGHT);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
+		
+		
 		try {
-			File sourceimage = new File("images/background.jpg");
-			Background = ImageIO.read(sourceimage);
+			//File sourceimage = new File("images/background.jpg");
+			//Background = ImageIO.read(sourceimage);
 		}catch(Exception e) {
 			
 		}
 		
+		JPanel panel = new JPanel();
+		JLabel label = new JLabel("aa");
+		label.setSize(100,100);
+		label.setLocation(0,0);
+		panel.add(label);
+		this.add(panel);
+		
+		
+		
 		PlayerGUI a = new PlayerGUI("first", 0, 0,0);
-		this.add(a);
-		a.setLocation(500, 500);
-		a.setVisible(true);
+		
+		Container c = getContentPane();
+		c.add(a);
+		pack();
+		setVisible(true);
 		
 		
 	}
