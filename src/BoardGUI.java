@@ -13,13 +13,13 @@ public class BoardGUI extends JFrame{
 	private Image Background;
 	
 	public BoardGUI(){
+		
 		setTitle("Blue Marble");
 		setSize(BlueMarble.SCREEM_WIDTH, BlueMarble.SCREEN_HEIGHT);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		
 		try {
 			File sourceimage = new File("images/background.jpg");
 			Background = ImageIO.read(sourceimage);
@@ -27,6 +27,10 @@ public class BoardGUI extends JFrame{
 			
 		}
 		
+		PlayerGUI a = new PlayerGUI("first", 0, 0,0);
+		this.add(a);
+		a.setLocation(500, 500);
+		a.setVisible(true);
 		
 		
 	}
