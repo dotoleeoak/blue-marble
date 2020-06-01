@@ -17,7 +17,7 @@ public class menuGUI extends JFrame {
             public void paintComponent(Graphics g) {
                 // Resize image to fit window size
                 Dimension d = getSize();
-                ImageIcon icon = new ImageIcon("image/menu_background.png");
+                ImageIcon icon = new ImageIcon("images/menu_background.png");
                 g.drawImage(icon.getImage(), 0, 0, d.width, d.height, null);
             }
         };
@@ -25,9 +25,9 @@ public class menuGUI extends JFrame {
         setContentPane(scrollPane);
 
         // Add menu buttons (게임 시작, 설정, 나가기)
-        ImageIcon icon1 = new ImageIcon("image/button1.png");
-        ImageIcon icon2 = new ImageIcon("image/button2.png");
-        ImageIcon icon3 = new ImageIcon("image/button3.png");
+        ImageIcon icon1 = new ImageIcon("images/button1.png");
+        ImageIcon icon2 = new ImageIcon("images/button2.png");
+        ImageIcon icon3 = new ImageIcon("images/button3.png");
         JButton button1 = new JButton(icon1);
         JButton button2 = new JButton(icon2);
         JButton button3 = new JButton(icon3);
