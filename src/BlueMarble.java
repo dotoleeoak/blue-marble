@@ -6,37 +6,31 @@ import javax.swing.*;
 
 public class BlueMarble {
 
-	public static final int SCREEM_WIDTH = 800;
+	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 600;
-	
-	public static void main(String[] args) {
-		BoardGUI a = new BoardGUI();
 
-		
-		
-		
-		
-		//ÇÃ·¹ÀÌ¾î ¼ö¸¦ ÀÔ·Â ¹Ş´Â ´Ü°è
-		int num_player = 0;	//ÇÃ·¹ÀÌ¾î ¼ö
-		Player[] player_list = new Player[4]; //ÇÃ·¹ÀÌ¾î ¸®½ºÆ® ÀúÀå
-		try {
-			Scanner scan = new Scanner(System.in);
-			do{
-				num_player = scan.nextInt();
-				//¸¸¾à numPlayer°¡ À¯È¿¹üÀ§ ³»°¡ ¾Æ´Ï¸é °æ°íÃ¢ ¶ç¿ì±â ±¸¹® Ãß°¡ÇÏ±â
-			}while( !(num_player >=1 && num_player <=4) );
-			for(int i = 0; i < num_player; i++) {
-				
-				
-			}
-			
-			
-		}catch(Exception e) {
-			
-		}
-		
-		
-		//ÇÃ·¹ÀÌ¾îµéÀÇ ÀÌ¸§À» ÀÔ·Â ¹Ş´Â ´Ü°è
+	public static void main(String[] args) {
+		menuGUI GUI = new menuGUI();
+    // BoardGUI a = new BoardGUI();
+
+		// í”Œë ˆì´ì–´ ìˆ˜ë¥¼ ì…ë ¥ ë°›ëŠ” ë‹¨ê³„
+		// int num_player = 0; // í”Œë ˆì´ì–´ ìˆ˜
+		// Player[] player_list = new Player[4]; // í”Œë ˆì´ì–´ ë¦¬ìŠ¤íŠ¸ ì €ì¥
+		// try {
+		// Scanner scan = new Scanner(System.in);
+		// do {
+		// num_player = scan.nextInt();
+		// // ë§Œì•½ numPlayerê°€ ìœ íš¨ë²”ìœ„ ë‚´ê°€ ì•„ë‹ˆë©´ ê²½ê³ ì°½ ë„ìš°ê¸° êµ¬ë¬¸ ì¶”ê°€í•˜ê¸°
+		// } while (!(num_player >= 1 && num_player <= 4));
+		// for (int i = 0; i < num_player; i++) {
+
+		// }
+
+		// } catch (Exception e) {
+
+		// }
+
+		// í”Œë ˆì´ì–´ë“¤ì˜ ì´ë¦„ì„ ì…ë ¥ ë°›ëŠ” ë‹¨ê³„
 
 	}
 
