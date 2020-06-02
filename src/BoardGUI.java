@@ -15,7 +15,7 @@ public class BoardGUI extends JFrame{
 	public BoardGUI(){
 		
 		setTitle("Blue Marble");
-		setLayout(new GridLayout(3,1));
+		setLayout(null);
 		setSize(BlueMarble.SCREEM_WIDTH, BlueMarble.SCREEN_HEIGHT);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -23,8 +23,8 @@ public class BoardGUI extends JFrame{
 		
 		
 		try {
-			//File sourceimage = new File("images/background.jpg");
-			//Background = ImageIO.read(sourceimage);
+			File sourceimage = new File("images/background.jpg");
+			Background = ImageIO.read(sourceimage);
 		}catch(Exception e) {
 			
 		}
@@ -42,7 +42,7 @@ public class BoardGUI extends JFrame{
 		
 		Container c = getContentPane();
 		c.add(a);
-		pack();
+		
 		setVisible(true);
 		
 		
