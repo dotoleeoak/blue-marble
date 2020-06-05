@@ -1,21 +1,80 @@
+import java.awt.Image;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
 
 public class Player {
 	String name;
 	int id;
-	int have_money;
-	int position; 
-	String[] chance = new String[10];   
-	//int completeNumber
+	int haveMoney;
+	int position, positionX, positionY; 
+	ArrayList<String> chance;
 	int island;
+	private Image piece = new ImageIcon(Main.class.getResource("images/piece0.png")).getImage();
 	Player(int _id, String _name) {
 		name = _name;
 		id = _id;
-		have_money = 2000;
-		position = -1;
+		haveMoney = 2000;
+		position = 0;
 		island = 0;
-		for(int i = 0; i < 10; i++) {
-			chance[i] = "";
-		}
-		// completeNumber = 0;
+		chance = null;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getHaveMoney() {
+		return haveMoney;
+	}
+	public void setHaveMoney(int haveMoney) {
+		this.haveMoney = haveMoney;
+	}
+	public int getPosition() {
+		return position;
+	}
+	
+	public int getPositionX() {
+		return positionX;
+	}
+	public void setPositionX(int positionX) {
+		this.positionX = positionX;
+	}
+	public int getPositionY() {
+		return positionY;
+	}
+	public void setPositionY(int positionY) {
+		this.positionY = positionY;
+	}
+	public Image getPiece() {
+		return piece;
+	}
+	public void setPiece(Image piece) {
+		this.piece = piece;
+	}
+	public void setPosition(int position) {
+		this.position = position;
+	}
+	
+	public ArrayList<String> getChance() {
+		return chance;
+	}
+	public void setChance(ArrayList<String> chance) {
+		this.chance = chance;
+	}
+	public int getIsland() {
+		return island;
+	}
+	public void setIsland(int island) {
+		this.island = island;
+	}
+	
+	
 }

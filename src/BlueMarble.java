@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -64,6 +65,8 @@ public class BlueMarble extends JFrame{
 	
 	int numPlayer;
 	
+	public static Game game;
+	
 	BlueMarble(){
 		
 		setUndecorated(true);
@@ -82,11 +85,11 @@ public class BlueMarble extends JFrame{
 	public void paint(Graphics g) {
 		screenImage = createImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		screenGraphic = screenImage.getGraphics();
-		screenDraw(screenGraphic);
+		screenDraw((Graphics2D)screenGraphic);
 		g.drawImage(screenImage, 0, 0, null);
 	}
 
-	public void screenDraw(Graphics g) {
+	public void screenDraw(Graphics2D g) {
 		g.drawImage(background, 0, 0, null);
 		
 		if(isSelecting) {
@@ -95,6 +98,7 @@ public class BlueMarble extends JFrame{
 		}
 		if(isGaming) {
 			g.drawImage(boardImage, 154, 26, null);
+			game.screenDraw(g);
 			switch(numPlayer) {
 			case 4:
 				g.drawImage(charaterBackgroundImage_3, Main.SCREEN_WIDTH -350, Main.SCREEN_HEIGHT - 100, null);
@@ -104,8 +108,6 @@ public class BlueMarble extends JFrame{
 				g.drawImage(charaterBackgroundImage_1, Main.SCREEN_WIDTH -350, 30, null);
 				g.drawImage(charaterBackgroundImage_0, 0, 30, null);
 			}
-			
-			
 		}
 		paintComponents(g);
 		this.repaint();
@@ -344,6 +346,8 @@ public class BlueMarble extends JFrame{
 		number3Button.setVisible(false);
 		number4Button.setVisible(false);
 		background = new ImageIcon(Main.class.getResource("images/background.png")).getImage();
+		game = new Game(numPlayer);
+		game.start();
 	}
 
 }
