@@ -22,9 +22,13 @@ public class BlueMarble extends JFrame {
 	private Image selectPanelBackgroundImage = new ImageIcon(Main.class.getResource("images/selectPanelBackground.png"))
 			.getImage();
 	private Image selectPanelImage = new ImageIcon(Main.class.getResource("images/selectPanel.png")).getImage();
-	private ImageIcon number2BasicImage = new ImageIcon(Main.class.getResource("images/number2.png"));
-	private ImageIcon number3BasicImage = new ImageIcon(Main.class.getResource("images/number3.png"));
-	private ImageIcon number4BasicImage = new ImageIcon(Main.class.getResource("images/number4.png"));
+	private ImageIcon[] numberImage = new ImageIcon[3];
+	// private ImageIcon number2BasicImage = new
+	// ImageIcon(Main.class.getResource("images/MainMenu/number2.png"));
+	// private ImageIcon number3BasicImage = new
+	// ImageIcon(Main.class.getResource("images/MainMenu/number3.png"));
+	// private ImageIcon number4BasicImage = new
+	// ImageIcon(Main.class.getResource("images/MainMenu/number4.png"));
 
 	private Image boardImage = new ImageIcon(Main.class.getResource("images/boardGroup.png")).getImage();
 
@@ -44,9 +48,10 @@ public class BlueMarble extends JFrame {
 	private JButton ruleButton = new JButton(ruleButtonBasicImage);
 	private JButton quitButton = new JButton(quitButtonBasicImage);
 
-	private JButton number2Button = new JButton(number2BasicImage);
-	private JButton number3Button = new JButton(number3BasicImage);
-	private JButton number4Button = new JButton(number4BasicImage);
+	private JButton[] numberButton = new JButton[3];
+	// private JButton number2Button = new JButton(number2BasicImage);
+	// private JButton number3Button = new JButton(number3BasicImage);
+	// private JButton number4Button = new JButton(number4BasicImage);
 
 	Music backgroundMusic;
 
@@ -70,6 +75,11 @@ public class BlueMarble extends JFrame {
 		setVisible(true);
 		setBackground(new Color(0, 0, 0, 0));
 		setLayout(null);
+
+		for (int i = 0; i < 3; i++) {
+			numberImage[i] = new ImageIcon(Main.class.getResource("images/MainMenu/number" + (i + 2) + ".png"));
+			numberButton[i] = new JButton(numberImage[i]);
+		}
 
 		enterIntro();
 	}
@@ -219,6 +229,7 @@ public class BlueMarble extends JFrame {
 				quitButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			}
 
+			@Override
 			public void mousePressed(MouseEvent e) {
 				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
 				buttonEnteredMusic.start();
@@ -257,86 +268,124 @@ public class BlueMarble extends JFrame {
 		quitButton.setVisible(false);
 		ruleButton.setVisible(false);
 
-		number2Button.setBounds(460, 360, 80, 80);
-		number2Button.setBorderPainted(false);
-		number2Button.setContentAreaFilled(false);
-		number2Button.setFocusPainted(false);
-		number2Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				number2Button.setIcon(number2BasicImage);
-				number2Button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
+		numberButton[0].setBounds(460, 360, 80, 80);
+		numberButton[1].setBounds(610, 360, 80, 80);
+		numberButton[2].setBounds(760, 360, 80, 80);
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-				number2Button.setIcon(number2BasicImage);
-				number2Button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			}
+		for (int i = 0; i < 3; i++) {
+			int numPlayer = i + 2;
+			JButton button = numberButton[i];
+			ImageIcon image = numberImage[i];
+			button.setBorderPainted(false);
+			button.setContentAreaFilled(false);
+			button.setFocusPainted(false);
+			button.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					button.setIcon(image);
+					button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+					Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
+					buttonEnteredMusic.start();
+				}
 
-			public void mousePressed(MouseEvent e) {
-				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-				buttonEnteredMusic.start();
-				gameStart(2);
-			}
-		});
-		add(number2Button);
+				@Override
+				public void mouseExited(MouseEvent e) {
+					button.setIcon(image);
+					button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				}
 
-		number3Button.setBounds(610, 360, 80, 80);
-		number3Button.setBorderPainted(false);
-		number3Button.setContentAreaFilled(false);
-		number3Button.setFocusPainted(false);
-		number3Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				number3Button.setIcon(number3BasicImage);
-				number3Button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
+					buttonEnteredMusic.start();
+					gameStart(numPlayer);
+				}
+			});
+			add(button);
+		}
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-				number3Button.setIcon(number3BasicImage);
-				number3Button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			}
+		// number2Button.setBounds(460, 360, 80, 80);
+		// number2Button.setBorderPainted(false);
+		// number2Button.setContentAreaFilled(false);
+		// number2Button.setFocusPainted(false);
+		// number2Button.addMouseListener(new MouseAdapter() {
+		// @Override
+		// public void mouseEntered(MouseEvent e) {
+		// number2Button.setIcon(number2BasicImage);
+		// number2Button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		// Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
+		// buttonEnteredMusic.start();
+		// }
 
-			public void mousePressed(MouseEvent e) {
-				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-				buttonEnteredMusic.start();
-				gameStart(3);
-			}
-		});
-		add(number3Button);
+		// @Override
+		// public void mouseExited(MouseEvent e) {
+		// number2Button.setIcon(number2BasicImage);
+		// number2Button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		// }
 
-		number4Button.setBounds(760, 360, 80, 80);
-		number4Button.setBorderPainted(false);
-		number4Button.setContentAreaFilled(false);
-		number4Button.setFocusPainted(false);
-		number4Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				number4Button.setIcon(number4BasicImage);
-				number4Button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
+		// @Override
+		// public void mousePressed(MouseEvent e) {
+		// Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
+		// buttonEnteredMusic.start();
+		// gameStart(2);
+		// }
+		// });
+		// add(number2Button);
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-				number4Button.setIcon(number4BasicImage);
-				number4Button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			}
+		// number3Button.setBounds(610, 360, 80, 80);
+		// number3Button.setBorderPainted(false);
+		// number3Button.setContentAreaFilled(false);
+		// number3Button.setFocusPainted(false);
+		// number3Button.addMouseListener(new MouseAdapter() {
+		// @Override
+		// public void mouseEntered(MouseEvent e) {
+		// number3Button.setIcon(number3BasicImage);
+		// number3Button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		// Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
+		// buttonEnteredMusic.start();
+		// }
 
-			public void mousePressed(MouseEvent e) {
-				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-				buttonEnteredMusic.start();
-				gameStart(4);
-			}
-		});
-		add(number4Button);
+		// @Override
+		// public void mouseExited(MouseEvent e) {
+		// number3Button.setIcon(number3BasicImage);
+		// number3Button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		// }
+
+		// @Override
+		// public void mousePressed(MouseEvent e) {
+		// Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
+		// buttonEnteredMusic.start();
+		// gameStart(3);
+		// }
+		// });
+		// add(number3Button);
+
+		// number4Button.setBounds(760, 360, 80, 80);
+		// number4Button.setBorderPainted(false);
+		// number4Button.setContentAreaFilled(false);
+		// number4Button.setFocusPainted(false);
+		// number4Button.addMouseListener(new MouseAdapter() {
+		// @Override
+		// public void mouseEntered(MouseEvent e) {
+		// number4Button.setIcon(number4BasicImage);
+		// number4Button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		// Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
+		// buttonEnteredMusic.start();
+		// }
+
+		// @Override
+		// public void mouseExited(MouseEvent e) {
+		// number4Button.setIcon(number4BasicImage);
+		// number4Button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		// }
+
+		// public void mousePressed(MouseEvent e) {
+		// Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
+		// buttonEnteredMusic.start();
+		// gameStart(4);
+		// }
+		// });
+		// add(number4Button);
 
 		// gameStart();
 	}
@@ -345,9 +394,12 @@ public class BlueMarble extends JFrame {
 		this.numPlayer = numPlayer;
 		isSelecting = false;
 		isGaming = true;
-		number2Button.setVisible(false);
-		number3Button.setVisible(false);
-		number4Button.setVisible(false);
+		for (JButton button : numberButton) {
+			button.setVisible(false);
+		}
+		// number2Button.setVisible(false);
+		// number3Button.setVisible(false);
+		// number4Button.setVisible(false);
 		background = new ImageIcon(Main.class.getResource("images/background.png")).getImage();
 		game = new Game(numPlayer);
 		game.start();
