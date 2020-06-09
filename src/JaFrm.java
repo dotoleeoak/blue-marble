@@ -35,8 +35,6 @@ public class JaFrm extends JFrame {
 
 // protected void paintComponent(Graphics g) {
 
-// // TODO Auto-generated method stub
-
 // super.paintComponent(g);
 
 // g.setFont(new Font("¸¼Àº°íµñ", Font.ITALIC, 24)); // ÆùÆ®
