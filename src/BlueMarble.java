@@ -1,8 +1,8 @@
-import java.io.*;
-import java.util.Scanner;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+// import java.io.*;
+// import java.util.Scanner;
+// import java.awt.*;
+// import java.awt.event.*;
+// import javax.swing.*;
 
 public class BlueMarble {
 
@@ -11,16 +11,16 @@ public class BlueMarble {
 
 	public static void main(String[] args) {
 		menuGUI GUI = new menuGUI();
-    // BoardGUI a = new BoardGUI();
+		// BoardGUI a = new BoardGUI();
 
-		// í”Œë ˆì´ì–´ ìˆ˜ë¥¼ ì…ë ¥ ë°›ëŠ” ë‹¨ê³„
-		// int num_player = 0; // í”Œë ˆì´ì–´ ìˆ˜
-		// Player[] player_list = new Player[4]; // í”Œë ˆì´ì–´ ë¦¬ìŠ¤íŠ¸ ì €ì¥
+		// ÇÃ·¹ÀÌ¾î ¼ö¸¦ ÀÔ·Â ¹Ş´Â ´Ü°è
+		// int num_player = 0; // ÇÃ·¹ÀÌ¾î ¼ö
+		// Player[] player_list = new Player[4]; // ÇÃ·¹ÀÌ¾î ¸®½ºÆ® ÀúÀå
 		// try {
 		// Scanner scan = new Scanner(System.in);
 		// do {
 		// num_player = scan.nextInt();
-		// // ë§Œì•½ numPlayerê°€ ìœ íš¨ë²”ìœ„ ë‚´ê°€ ì•„ë‹ˆë©´ ê²½ê³ ì°½ ë„ìš°ê¸° êµ¬ë¬¸ ì¶”ê°€í•˜ê¸°
+		// // ¸¸¾à numPlayer°¡ À¯È¿¹üÀ§ ³»°¡ ¾Æ´Ï¸é °æ°íÃ¢ ¶ç¿ì±â ±¸¹® Ãß°¡ÇÏ±â
 		// } while (!(num_player >= 1 && num_player <= 4));
 		// for (int i = 0; i < num_player; i++) {
 
@@ -30,7 +30,7 @@ public class BlueMarble {
 
 		// }
 
-		// í”Œë ˆì´ì–´ë“¤ì˜ ì´ë¦„ì„ ì…ë ¥ ë°›ëŠ” ë‹¨ê³„
+		// ÇÃ·¹ÀÌ¾îµéÀÇ ÀÌ¸§À» ÀÔ·Â ¹Ş´Â ´Ü°è
 
 	}
 
