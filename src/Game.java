@@ -22,7 +22,7 @@ public class Game extends Thread {
 		switch (numPlayer) {
 		case 2:
 			playerList.add(new Player(0, "first"));
-			playerList.add(new Player(0, "second"));
+			playerList.add(new Player(1, "second"));
 			break;
 		case 3:
 			playerList.add(new Player(0, "first"));
