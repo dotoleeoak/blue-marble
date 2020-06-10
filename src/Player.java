@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 public class Player {
 	String name;
 	int id;
-	int haveMoney;
+	int balance;
 	int position, positionX, positionY; 
 	ArrayList<String> chance;
 	int island;
@@ -14,7 +14,7 @@ public class Player {
 	Player(int _id, String _name) {
 		name = _name;
 		id = _id;
-		haveMoney = 2000;
+		balance = 2000;
 		position = 0;
 		island = 0;
 		chance = null;
@@ -31,11 +31,11 @@ public class Player {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getHaveMoney() {
-		return haveMoney;
+	public int getBalance() {
+		return balance;
 	}
-	public void setHaveMoney(int haveMoney) {
-		this.haveMoney = haveMoney;
+	public void setBalance(int balance) {
+		this.balance = balance;
 	}
 	public int getPosition() {
 		return position;
