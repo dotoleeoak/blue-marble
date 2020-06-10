@@ -6,9 +6,21 @@ class CityManager {
 	// 	ENGINEER_1, ENGINEER_2, JONGHAP, SANHAK, 
 	// 	SEMICONDUCTOR, PHARMACY, MEDICINE, LIBRARY;
 	// }
+	
+	class City {
+		int ownerID;
+		int price;
+		int toll;
+	
+		City(int price) {
+			this.ownerID = -1;  // -1 means nobody 
+			this.price = price;
+			this.toll = 0;
+		}
+	}
 
 	ArrayList<City> arrayCity;
-	
+
 	CityManager() {
 		arrayCity = new ArrayList<City>();
 		arrayCity.add(new City(100));  // ¼ö¼º°ü
@@ -50,14 +62,3 @@ class CityManager {
 	}
 }
 
-class City {
-	int ownerID;
-	int price;
-	int toll;
-
-	City(int price) {
-		this.ownerID = -1;  // -1 means nobody 
-		this.price = price;
-		this.toll = 0;
-	}
-}
