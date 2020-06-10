@@ -56,7 +56,7 @@ public class BlueMarble extends JFrame {
 
 	BlueMarble() {
 		setUndecorated(true);
-		setTitle("���� ����");
+		setTitle("�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕");
 		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		setResizable(false);
 		setLocationRelativeTo(null);

@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+// import java.util.ArrayList;
 
 public class Player {
 	int ID;
@@ -6,28 +6,44 @@ public class Player {
 	int money;
 	int position;
 	int numThesis;
-	ArrayList<String> chance;
+	int numChance;
+	// ArrayList<String> chance;
 
-	// ÁÂÇ¥ ÀÌ¹ÌÁö´Â ÀüºÎ Game class¿¡¼­ Ã³¸®
 	Player(int _id, String _name) {
 		ID = _id;
 		name = _name;
 		money = 1000;
 		position = 0;
 		numThesis = 0;
-		chance = new ArrayList<String>();
+		numChance = 0;
+		// chance = new ArrayList<String>();
 	}
 
 	public int nextPosition(int dice) {
 		if (numThesis == 0 || dice == 6) {
-			position += dice;
+			position = (position + dice) % 16;
 		}
-	// ì¢Œí‘œ ?´ë¯¸ì???Š” ? „ë¶? Game class?—?„œ ì²˜ë¦¬
 		return position;
 	}
 
-	public void setThesis() {
+	public void lab() {
 		numThesis += 3;
+	}
+
+	public void winChance() {
+		numChance += 1;
+	}
+
+	public boolean hasChance() {
+		return numChance > 0;
+	}
+
+	public void popChance() {
+		numChance--;
+	}
+
+	public void earnMoney(int diff) {
+		money += diff;
 	}
 
 	public boolean buyCity(int idxCity) {
@@ -49,4 +65,16 @@ public class Player {
 		Game.cityManager.buyBuilding(idxCity, ID);
 		return true;
 	}
+
+	// ?‹¤ë¥? ?‚¬?Œ ì¹? ê±¸ë ¸?„ ?•Œ
+	public boolean payToll(int idxCity) {
+		int toll = Game.cityManager.getToll(idxCity);
+		if (money < toll) {
+			return false;
+		}
+		money -= toll;
+		return true;
+	}
+
+
 }
