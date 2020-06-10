@@ -12,18 +12,18 @@ public class BlueMarble extends JFrame {
 
 	private ImageIcon exitButtonBasicImage    = new ImageIcon(Main.class.getResource("images/exitButtonBasic.png"));
 	private ImageIcon exitButtonEnteredImage  = new ImageIcon(Main.class.getResource("images/exitButtonEntered.png"));
-	private ImageIcon startButtonBasicImage   = new ImageIcon(Main.class.getResource("images/startButtonBasic.png"));
-	private ImageIcon startButtonEnteredImage = new ImageIcon(Main.class.getResource("images/startButtonEntered.png"));
-	private ImageIcon startButtonPressedImage = new ImageIcon(Main.class.getResource("images/startButtonPressed.png"));
-	private ImageIcon ruleButtonBasicImage    = new ImageIcon(Main.class.getResource("images/ruleButtonBasic.png"));
-	private ImageIcon ruleButtonEnteredImage  = new ImageIcon(Main.class.getResource("images/ruleButtonEntered.png"));
-	private ImageIcon ruleButtonPressedImage  = new ImageIcon(Main.class.getResource("images/ruleButtonPressed.png"));
-	private ImageIcon quitButtonBasicImage    = new ImageIcon(Main.class.getResource("images/quitButtonBasic.png"));
-	private ImageIcon quitButtonEnteredImage  = new ImageIcon(Main.class.getResource("images/quitButtonEntered.png"));
-	private ImageIcon quitButtonPressedImage  = new ImageIcon(Main.class.getResource("images/quitButtonPressed.png"));
+	private ImageIcon startButtonBasicImage   = new ImageIcon(Main.class.getResource("images/MainMenu/startButton.png"));
+	private ImageIcon startButtonEnteredImage = new ImageIcon(Main.class.getResource("images/MainMenu/startButtonEntered.png"));
+	private ImageIcon startButtonPressedImage = new ImageIcon(Main.class.getResource("images/MainMenu/startButtonPressed.png"));
+	private ImageIcon ruleButtonBasicImage    = new ImageIcon(Main.class.getResource("images/MainMenu/ruleButton.png"));
+	private ImageIcon ruleButtonEnteredImage  = new ImageIcon(Main.class.getResource("images/MainMenu/ruleButtonEntered.png"));
+	private ImageIcon ruleButtonPressedImage  = new ImageIcon(Main.class.getResource("images/MainMenu/ruleButtonPressed.png"));
+	private ImageIcon quitButtonBasicImage    = new ImageIcon(Main.class.getResource("images/MainMenu/quitButton.png"));
+	private ImageIcon quitButtonEnteredImage  = new ImageIcon(Main.class.getResource("images/MainMenu/quitButtonEntered.png"));
+	private ImageIcon quitButtonPressedImage  = new ImageIcon(Main.class.getResource("images/MainMenu/quitButtonPressed.png"));
 
 	private Image selectPanelBackgroundImage = new ImageIcon(Main.class.getResource("images/selectPanelBackground.png")).getImage();
-	private Image selectPanelImage           = new ImageIcon(Main.class.getResource("images/selectPanel.png")).getImage();
+	private Image selectPanelImage           = new ImageIcon(Main.class.getResource("images/MainMenu/selectPanel.png")).getImage();
 	private ImageIcon[] numberImage          = new ImageIcon[3];
 	private ImageIcon[] numberImageEntered   = new ImageIcon[3];
 	private ImageIcon[] numberImagePressed   = new ImageIcon[3];
@@ -111,10 +111,10 @@ public class BlueMarble extends JFrame {
 	public void enterIntro() {
 		if (backgroundMusic != null)
 			backgroundMusic.close();
-		backgroundMusic = new Music("introMusic.mp3", true);
+		backgroundMusic = new Music("introMusicNew.mp3", true);
 		backgroundMusic.start();
 
-		background = new ImageIcon(Main.class.getResource("images/introBackground.png")).getImage();
+		background = new ImageIcon(Main.class.getResource("images/MainMenu/introBackground.png")).getImage();
 
 		exitButton.setBounds(1245, 0, 30, 30);
 		exitButton.setBorderPainted(false);
@@ -149,7 +149,7 @@ public class BlueMarble extends JFrame {
 		});
 		add(exitButton);
 
-		startButton.setBounds(100, 350, 350, 85);
+		startButton.setBounds(75, 350, 350, 85);
 		startButton.setBorderPainted(false);
 		startButton.setContentAreaFilled(false);
 		startButton.setFocusPainted(false);
@@ -177,12 +177,13 @@ public class BlueMarble extends JFrame {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				startButton.setIcon(startButtonBasicImage);
 				selectPlayer();
 			}
 		});
 		add(startButton);
 
-		ruleButton.setBounds(100, 450, 350, 85);
+		ruleButton.setBounds(75, 450, 350, 85);
 		ruleButton.setBorderPainted(false);
 		ruleButton.setContentAreaFilled(false);
 		ruleButton.setFocusPainted(false);
@@ -210,12 +211,12 @@ public class BlueMarble extends JFrame {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				;
+				ruleButton.setIcon(ruleButtonBasicImage);
 			}
 		});
 		add(ruleButton);
 
-		quitButton.setBounds(100, 550, 350, 85);
+		quitButton.setBounds(75, 550, 350, 85);
 		quitButton.setBorderPainted(false);
 		quitButton.setContentAreaFilled(false);
 		quitButton.setFocusPainted(false);
@@ -243,6 +244,7 @@ public class BlueMarble extends JFrame {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				quitButton.setIcon(quitButtonBasicImage);
 				// try {
 				// 	Thread.sleep(1000);
 				// } catch (InterruptedException ex) {
@@ -279,8 +281,8 @@ public class BlueMarble extends JFrame {
 		ruleButton.setVisible(false);
 
 		numberButton[0].setBounds(460, 360, 80, 80);
-		numberButton[1].setBounds(610, 360, 80, 80);
-		numberButton[2].setBounds(760, 360, 80, 80);
+		numberButton[1].setBounds(600, 360, 80, 80);
+		numberButton[2].setBounds(740, 360, 80, 80);
 
 		for (int i = 0; i < 3; i++) {
 			int       numPlayer    = i + 2;
@@ -316,6 +318,7 @@ public class BlueMarble extends JFrame {
 				
 				@Override
 				public void mouseReleased(MouseEvent e) {
+					backgroundMusic.close();
 					gameStart(numPlayer);
 				}
 			});
