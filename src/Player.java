@@ -75,6 +75,4 @@ public class Player {
 	public void setIsland(int island) {
 		this.island = island;
 	}
-	
-	
 }
