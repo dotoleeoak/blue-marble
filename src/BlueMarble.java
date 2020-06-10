@@ -28,7 +28,7 @@ public class BlueMarble extends JFrame {
 	private ImageIcon[] numberImageEntered   = new ImageIcon[3];
 	private ImageIcon[] numberImagePressed   = new ImageIcon[3];
 
-	private Image boardImage = new ImageIcon(Main.class.getResource("images/boardGroup.png")).getImage();
+	private Image boardImage = new ImageIcon(Main.class.getResource("images/board.png")).getImage();
 
 	private Image charaterBackgroundImage_0 = new ImageIcon(Main.class.getResource("images/charaterBackground.png")).getImage();
 	private Image charaterBackgroundImage_1 = new ImageIcon(Main.class.getResource("images/charaterBackground.png")).getImage();
@@ -49,11 +49,10 @@ public class BlueMarble extends JFrame {
 	private int mouseX, mouseY;
 
 	private boolean isSelecting = false;
-	private boolean isGaming    = false;
 
 	int numPlayer;
 
-	public static Game game;
+	public Game game;
 
 	BlueMarble() {
 		setUndecorated(true);
@@ -92,7 +91,7 @@ public class BlueMarble extends JFrame {
 			g.drawImage(selectPanelImage, 400, 260, null);
 		}
 		if (isGaming) {
-			g.drawImage(boardImage, 154, 26, null);
+			g.drawImage(boardImage, 0, 0, null);
 			game.screenDraw(g);
 			switch (numPlayer) {
 				case 4:
@@ -108,7 +107,7 @@ public class BlueMarble extends JFrame {
 		this.repaint();
 	}
 
-	public MouseAdapter createMouseAdapter(JButton button) {
+	public static MouseAdapter createMouseAdapter(JButton button) {
 		return new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -156,7 +155,7 @@ public class BlueMarble extends JFrame {
 		});
 		add(exitButton);
 
-		startButton.setBounds(75, 350, 350, 85);
+		startButton.setBounds(135, 350, 235, 75);
 		startButton.setBorderPainted(false);
 		startButton.setContentAreaFilled(false);
 		startButton.setFocusPainted(false);
@@ -170,7 +169,7 @@ public class BlueMarble extends JFrame {
 		});
 		add(startButton);
 
-		ruleButton.setBounds(75, 450, 350, 85);
+		ruleButton.setBounds(135, 450, 235, 75);
 		ruleButton.setBorderPainted(false);
 		ruleButton.setContentAreaFilled(false);
 		ruleButton.setFocusPainted(false);
@@ -184,7 +183,7 @@ public class BlueMarble extends JFrame {
 		});
 		add(ruleButton);
 
-		quitButton.setBounds(75, 550, 350, 85);
+		quitButton.setBounds(135, 550, 235, 75);
 		quitButton.setBorderPainted(false);
 		quitButton.setContentAreaFilled(false);
 		quitButton.setFocusPainted(false);
@@ -242,6 +241,9 @@ public class BlueMarble extends JFrame {
 			button.setBorderPainted(false);
 			button.setContentAreaFilled(false);
 			button.setFocusPainted(false);
+			button.setIcon(image);
+			button.setRolloverIcon(imageEntered);
+			button.setPressedIcon(imagePressed);
 			button.addMouseListener(createMouseAdapter(button));
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed (ActionEvent e) {
@@ -250,20 +252,10 @@ public class BlueMarble extends JFrame {
 			});
 			add(button);
 		}
-
-		// gameStart();
 	}
 
 	public void gameStart(int numPlayer) {
-		this.numPlayer = numPlayer;
-		isSelecting = false;
-		isGaming = true;
-		for (JButton button : numberButton) {
-			button.setVisible(false);
-		}
-		background = new ImageIcon(Main.class.getResource("images/background.png")).getImage();
-		game = new Game(numPlayer);
-		game.start();
+		this.setVisible(false);
+		new Game(numPlayer).setVisible(true);
 	}
-
 }

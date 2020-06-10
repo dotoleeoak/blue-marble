@@ -9,17 +9,27 @@ public class Game extends Thread {
 
 	public int numPlayer;
 
+<<<<<<< HEAD
 	public static CityManager cityManager = new CityManager();
 
 	ArrayList<Coordinate> coordinateSet = new ArrayList<Coordinate>();
+=======
+>>>>>>> origin/PJS
 	ArrayList<Player> playerList = new ArrayList<Player>();
 
 	Game(int _numPlayer) {
 		this.numPlayer = _numPlayer;
+<<<<<<< HEAD
 		// setCoordinate();
 		setPlayer();
 	}
 
+=======
+		setPlayer();
+	}
+
+
+>>>>>>> origin/PJS
 	public void setPlayer() {
 		switch (numPlayer) {
 			case 2:
@@ -31,8 +41,11 @@ public class Game extends Thread {
 				playerList.add(new Player(3, "Fourth"));
 		}
 		for (int i = 0; i < playerList.size(); i++) {
+<<<<<<< HEAD
 			// TODO: Use coordinate manager (player)
 			// playerList.get(i).setPosition(coordinateSet.get(0));
+=======
+>>>>>>> origin/PJS
 		}
 	}
 

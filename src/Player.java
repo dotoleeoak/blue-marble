@@ -22,6 +22,7 @@ public class Player {
 		if (numThesis == 0 || dice == 6) {
 			position += dice;
 		}
+	// ì¢Œí‘œ ?´ë¯¸ì???Š” ? „ë¶? Game class?—?„œ ì²˜ë¦¬
 		return position;
 	}
 
