@@ -10,62 +10,52 @@ public class BlueMarble extends JFrame {
 
 	private Image background;
 
-	private ImageIcon exitButtonEnteredImage = new ImageIcon(Main.class.getResource("images/exitButtonEntered.png"));
-	private ImageIcon exitButtonBasicImage = new ImageIcon(Main.class.getResource("images/exitButtonBasic.png"));
+	private ImageIcon exitButtonBasicImage    = new ImageIcon(Main.class.getResource("images/exitButtonBasic.png"));
+	private ImageIcon exitButtonEnteredImage  = new ImageIcon(Main.class.getResource("images/exitButtonEntered.png"));
+	private ImageIcon startButtonBasicImage   = new ImageIcon(Main.class.getResource("images/startButtonBasic.png"));
 	private ImageIcon startButtonEnteredImage = new ImageIcon(Main.class.getResource("images/startButtonEntered.png"));
-	private ImageIcon startButtonBasicImage = new ImageIcon(Main.class.getResource("images/startButtonBasic.png"));
-	private ImageIcon quitButtonEnteredImage = new ImageIcon(Main.class.getResource("images/quitButtonEntered.png"));
-	private ImageIcon quitButtonBasicImage = new ImageIcon(Main.class.getResource("images/quitButtonBasic.png"));
-	private ImageIcon ruleButtonEnteredImage = new ImageIcon(Main.class.getResource("images/ruleButtonEntered.png"));
-	private ImageIcon ruleButtonBasicImage = new ImageIcon(Main.class.getResource("images/ruleButtonBasic.png"));
+	private ImageIcon startButtonPressedImage = new ImageIcon(Main.class.getResource("images/startButtonPressed.png"));
+	private ImageIcon ruleButtonBasicImage    = new ImageIcon(Main.class.getResource("images/ruleButtonBasic.png"));
+	private ImageIcon ruleButtonEnteredImage  = new ImageIcon(Main.class.getResource("images/ruleButtonEntered.png"));
+	private ImageIcon ruleButtonPressedImage  = new ImageIcon(Main.class.getResource("images/ruleButtonPressed.png"));
+	private ImageIcon quitButtonBasicImage    = new ImageIcon(Main.class.getResource("images/quitButtonBasic.png"));
+	private ImageIcon quitButtonEnteredImage  = new ImageIcon(Main.class.getResource("images/quitButtonEntered.png"));
+	private ImageIcon quitButtonPressedImage  = new ImageIcon(Main.class.getResource("images/quitButtonPressed.png"));
 
-	private Image selectPanelBackgroundImage = new ImageIcon(Main.class.getResource("images/selectPanelBackground.png"))
-			.getImage();
-	private Image selectPanelImage = new ImageIcon(Main.class.getResource("images/selectPanel.png")).getImage();
-	private ImageIcon[] numberImage = new ImageIcon[3];
-	// private ImageIcon number2BasicImage = new
-	// ImageIcon(Main.class.getResource("images/MainMenu/number2.png"));
-	// private ImageIcon number3BasicImage = new
-	// ImageIcon(Main.class.getResource("images/MainMenu/number3.png"));
-	// private ImageIcon number4BasicImage = new
-	// ImageIcon(Main.class.getResource("images/MainMenu/number4.png"));
+	private Image selectPanelBackgroundImage = new ImageIcon(Main.class.getResource("images/selectPanelBackground.png")).getImage();
+	private Image selectPanelImage           = new ImageIcon(Main.class.getResource("images/selectPanel.png")).getImage();
+	private ImageIcon[] numberImage          = new ImageIcon[3];
+	private ImageIcon[] numberImageEntered   = new ImageIcon[3];
+	private ImageIcon[] numberImagePressed   = new ImageIcon[3];
 
 	private Image boardImage = new ImageIcon(Main.class.getResource("images/boardGroup.png")).getImage();
 
-	private Image charaterBackgroundImage_0 = new ImageIcon(Main.class.getResource("images/charaterBackground.png"))
-			.getImage();
-	private Image charaterBackgroundImage_1 = new ImageIcon(Main.class.getResource("images/charaterBackground.png"))
-			.getImage();
-	private Image charaterBackgroundImage_2 = new ImageIcon(Main.class.getResource("images/charaterBackground.png"))
-			.getImage();
-	private Image charaterBackgroundImage_3 = new ImageIcon(Main.class.getResource("images/charaterBackground.png"))
-			.getImage();
+	private Image charaterBackgroundImage_0 = new ImageIcon(Main.class.getResource("images/charaterBackground.png")).getImage();
+	private Image charaterBackgroundImage_1 = new ImageIcon(Main.class.getResource("images/charaterBackground.png")).getImage();
+	private Image charaterBackgroundImage_2 = new ImageIcon(Main.class.getResource("images/charaterBackground.png")).getImage();
+	private Image charaterBackgroundImage_3 = new ImageIcon(Main.class.getResource("images/charaterBackground.png")).getImage();
 
 	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("images/menuBar.png")));
 
-	private JButton exitButton = new JButton(exitButtonBasicImage);
+	private JButton exitButton  = new JButton(exitButtonBasicImage);
 	private JButton startButton = new JButton(startButtonBasicImage);
-	private JButton ruleButton = new JButton(ruleButtonBasicImage);
-	private JButton quitButton = new JButton(quitButtonBasicImage);
+	private JButton ruleButton  = new JButton(ruleButtonBasicImage);
+	private JButton quitButton  = new JButton(quitButtonBasicImage);
 
 	private JButton[] numberButton = new JButton[3];
-	// private JButton number2Button = new JButton(number2BasicImage);
-	// private JButton number3Button = new JButton(number3BasicImage);
-	// private JButton number4Button = new JButton(number4BasicImage);
 
 	Music backgroundMusic;
 
 	private int mouseX, mouseY;
 
 	private boolean isSelecting = false;
-	private boolean isGaming = false;
+	private boolean isGaming    = false;
 
 	int numPlayer;
 
 	public static Game game;
 
 	BlueMarble() {
-
 		setUndecorated(true);
 		setTitle("율전 마블");
 		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
@@ -77,8 +67,10 @@ public class BlueMarble extends JFrame {
 		setLayout(null);
 
 		for (int i = 0; i < 3; i++) {
-			numberImage[i] = new ImageIcon(Main.class.getResource("images/MainMenu/number" + (i + 2) + ".png"));
-			numberButton[i] = new JButton(numberImage[i]);
+			numberImage       [i] = new ImageIcon(Main.class.getResource("images/MainMenu/number" + (i + 2) + ".png"));
+			numberImageEntered[i] = new ImageIcon(Main.class.getResource("images/MainMenu/number" + (i + 2) + "entered.png"));
+			numberImagePressed[i] = new ImageIcon(Main.class.getResource("images/MainMenu/number" + (i + 2) + "pressed.png"));
+			numberButton      [i] = new JButton(numberImage[i]);
 		}
 
 		enterIntro();
@@ -176,9 +168,15 @@ public class BlueMarble extends JFrame {
 				startButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			}
 
+			@Override
 			public void mousePressed(MouseEvent e) {
+				startButton.setIcon(startButtonPressedImage);
 				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
 				buttonEnteredMusic.start();
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
 				selectPlayer();
 			}
 		});
@@ -203,9 +201,16 @@ public class BlueMarble extends JFrame {
 				ruleButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			}
 
+			@Override
 			public void mousePressed(MouseEvent e) {
+				ruleButton.setIcon(ruleButtonPressedImage);
 				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
 				buttonEnteredMusic.start();
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				;
 			}
 		});
 		add(ruleButton);
@@ -231,13 +236,18 @@ public class BlueMarble extends JFrame {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
+				quitButton.setIcon(quitButtonPressedImage);
 				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
 				buttonEnteredMusic.start();
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException ex) {
-					ex.printStackTrace();
-				}
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// try {
+				// 	Thread.sleep(1000);
+				// } catch (InterruptedException ex) {
+				// 	ex.printStackTrace();
+				// }
 				System.exit(0);
 			}
 		});
@@ -273,16 +283,19 @@ public class BlueMarble extends JFrame {
 		numberButton[2].setBounds(760, 360, 80, 80);
 
 		for (int i = 0; i < 3; i++) {
-			int numPlayer = i + 2;
-			JButton button = numberButton[i];
-			ImageIcon image = numberImage[i];
+			int       numPlayer    = i + 2;
+			JButton   button       = numberButton[i];
+			ImageIcon image        = numberImage[i];
+			ImageIcon imageEntered = numberImageEntered[i];
+			ImageIcon imagePressed = numberImagePressed[i];
+
 			button.setBorderPainted(false);
 			button.setContentAreaFilled(false);
 			button.setFocusPainted(false);
 			button.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
-					button.setIcon(image);
+					button.setIcon(imageEntered);
 					button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 					Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
 					buttonEnteredMusic.start();
@@ -296,96 +309,18 @@ public class BlueMarble extends JFrame {
 
 				@Override
 				public void mousePressed(MouseEvent e) {
+					button.setIcon(imagePressed);
 					Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
 					buttonEnteredMusic.start();
+				}
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
 					gameStart(numPlayer);
 				}
 			});
 			add(button);
 		}
-
-		// number2Button.setBounds(460, 360, 80, 80);
-		// number2Button.setBorderPainted(false);
-		// number2Button.setContentAreaFilled(false);
-		// number2Button.setFocusPainted(false);
-		// number2Button.addMouseListener(new MouseAdapter() {
-		// @Override
-		// public void mouseEntered(MouseEvent e) {
-		// number2Button.setIcon(number2BasicImage);
-		// number2Button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		// Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-		// buttonEnteredMusic.start();
-		// }
-
-		// @Override
-		// public void mouseExited(MouseEvent e) {
-		// number2Button.setIcon(number2BasicImage);
-		// number2Button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		// }
-
-		// @Override
-		// public void mousePressed(MouseEvent e) {
-		// Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-		// buttonEnteredMusic.start();
-		// gameStart(2);
-		// }
-		// });
-		// add(number2Button);
-
-		// number3Button.setBounds(610, 360, 80, 80);
-		// number3Button.setBorderPainted(false);
-		// number3Button.setContentAreaFilled(false);
-		// number3Button.setFocusPainted(false);
-		// number3Button.addMouseListener(new MouseAdapter() {
-		// @Override
-		// public void mouseEntered(MouseEvent e) {
-		// number3Button.setIcon(number3BasicImage);
-		// number3Button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		// Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-		// buttonEnteredMusic.start();
-		// }
-
-		// @Override
-		// public void mouseExited(MouseEvent e) {
-		// number3Button.setIcon(number3BasicImage);
-		// number3Button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		// }
-
-		// @Override
-		// public void mousePressed(MouseEvent e) {
-		// Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-		// buttonEnteredMusic.start();
-		// gameStart(3);
-		// }
-		// });
-		// add(number3Button);
-
-		// number4Button.setBounds(760, 360, 80, 80);
-		// number4Button.setBorderPainted(false);
-		// number4Button.setContentAreaFilled(false);
-		// number4Button.setFocusPainted(false);
-		// number4Button.addMouseListener(new MouseAdapter() {
-		// @Override
-		// public void mouseEntered(MouseEvent e) {
-		// number4Button.setIcon(number4BasicImage);
-		// number4Button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		// Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-		// buttonEnteredMusic.start();
-		// }
-
-		// @Override
-		// public void mouseExited(MouseEvent e) {
-		// number4Button.setIcon(number4BasicImage);
-		// number4Button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		// }
-
-		// public void mousePressed(MouseEvent e) {
-		// Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-		// buttonEnteredMusic.start();
-		// gameStart(4);
-		// }
-		// });
-		// add(number4Button);
 
 		// gameStart();
 	}
@@ -397,9 +332,6 @@ public class BlueMarble extends JFrame {
 		for (JButton button : numberButton) {
 			button.setVisible(false);
 		}
-		// number2Button.setVisible(false);
-		// number3Button.setVisible(false);
-		// number4Button.setVisible(false);
 		background = new ImageIcon(Main.class.getResource("images/background.png")).getImage();
 		game = new Game(numPlayer);
 		game.start();

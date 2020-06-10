@@ -23,7 +23,7 @@ public class JaFrm extends JFrame {
     }
 
     public static void main(String[] args) {
-        JaFrm frm = new JaFrm("오라클자바");
+        new JaFrm("오라클자바");
     }
 }
 
