@@ -20,7 +20,7 @@ public class Game extends Thread {
 	}
 
 	private void setCoordinate() {
-		coordinateSet.add(new Coordinate(650, 563));
+		coordinateSet.add(new Coordinate(535, 511));
 		coordinateSet.add(new Coordinate(200, 100));
 		coordinateSet.add(new Coordinate(300, 100));
 		coordinateSet.add(new Coordinate(300, 200));
