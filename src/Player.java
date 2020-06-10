@@ -1,80 +1,33 @@
-import java.awt.Image;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
+// import java.awt.Image;
+// import javax.swing.ImageIcon;
 
 public class Player {
+	int ID;
 	String name;
-	int id;
-	int haveMoney;
-	int position, positionX, positionY; 
+	int money;
+	boolean isIsolated;
 	ArrayList<String> chance;
-	int island;
-	private Image piece = new ImageIcon(Main.class.getResource("images/piece0.png")).getImage();
+
+	// 좌표, 이미지는 전부 Game class에서 처리
+	// Coordinate position;
 	Player(int _id, String _name) {
+		ID = _id;
 		name = _name;
-		id = _id;
-		haveMoney = 2000;
-		position = 0;
-		island = 0;
-		chance = null;
+		money = 1000;
+		isIsolated = false;
+		chance = new ArrayList<String>();
 	}
-	public String getName() {
-		return name;
+
+	public int rollDice() {
+		return Main.random.nextInt() % 6 + 1;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void buyCity() {
+
 	}
-	public int getId() {
-		return id;
+
+	public void buyBuilding() {
+
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public int getHaveMoney() {
-		return haveMoney;
-	}
-	public void setHaveMoney(int haveMoney) {
-		this.haveMoney = haveMoney;
-	}
-	public int getPosition() {
-		return position;
-	}
-	
-	public int getPositionX() {
-		return positionX;
-	}
-	public void setPositionX(int positionX) {
-		this.positionX = positionX;
-	}
-	public int getPositionY() {
-		return positionY;
-	}
-	public void setPositionY(int positionY) {
-		this.positionY = positionY;
-	}
-	public Image getPiece() {
-		return piece;
-	}
-	public void setPiece(Image piece) {
-		this.piece = piece;
-	}
-	public void setPosition(int position) {
-		this.position = position;
-	}
-	
-	public ArrayList<String> getChance() {
-		return chance;
-	}
-	public void setChance(ArrayList<String> chance) {
-		this.chance = chance;
-	}
-	public int getIsland() {
-		return island;
-	}
-	public void setIsland(int island) {
-		this.island = island;
-	}
-	
-	
 }
