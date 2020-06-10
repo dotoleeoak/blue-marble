@@ -57,7 +57,7 @@ public class BlueMarble extends JFrame {
 
 	BlueMarble() {
 		setUndecorated(true);
-		setTitle("À²Àü ¸¶ºí");
+		setTitle("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -72,7 +72,7 @@ public class BlueMarble extends JFrame {
 			numberImagePressed[i] = new ImageIcon(Main.class.getResource("images/MainMenu/number" + (i + 2) + "pressed.png"));
 			numberButton      [i] = new JButton(numberImage[i]);
 		}
-
+		
 		enterIntro();
 	}
 
@@ -108,6 +108,28 @@ public class BlueMarble extends JFrame {
 		this.repaint();
 	}
 
+	public MouseAdapter createMouseAdapter(JButton button) {
+		return new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
+				buttonEnteredMusic.start();
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
+				buttonEnteredMusic.start();
+			}
+		};
+	}
+
 	public void enterIntro() {
 		if (backgroundMusic != null)
 			backgroundMusic.close();
@@ -120,27 +142,12 @@ public class BlueMarble extends JFrame {
 		exitButton.setBorderPainted(false);
 		exitButton.setContentAreaFilled(false);
 		exitButton.setFocusPainted(false);
-		exitButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				exitButton.setIcon(exitButtonEnteredImage);
-				exitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				exitButton.setIcon(exitButtonBasicImage);
-				exitButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-				buttonEnteredMusic.start();
+		exitButton.setRolloverIcon(exitButtonEnteredImage);
+		exitButton.addMouseListener(createMouseAdapter(exitButton));
+		exitButton.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(300);
 				} catch (InterruptedException ex) {
 					ex.printStackTrace();
 				}
@@ -153,30 +160,11 @@ public class BlueMarble extends JFrame {
 		startButton.setBorderPainted(false);
 		startButton.setContentAreaFilled(false);
 		startButton.setFocusPainted(false);
-		startButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				startButton.setIcon(startButtonEnteredImage);
-				startButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				startButton.setIcon(startButtonBasicImage);
-				startButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				startButton.setIcon(startButtonPressedImage);
-				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
+		startButton.setRolloverIcon(startButtonEnteredImage);
+		startButton.setPressedIcon(startButtonPressedImage);
+		startButton.addMouseListener(createMouseAdapter(startButton));
+		startButton.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
 				selectPlayer();
 			}
 		});
@@ -186,31 +174,12 @@ public class BlueMarble extends JFrame {
 		ruleButton.setBorderPainted(false);
 		ruleButton.setContentAreaFilled(false);
 		ruleButton.setFocusPainted(false);
-		ruleButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				ruleButton.setIcon(ruleButtonEnteredImage);
-				ruleButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				ruleButton.setIcon(ruleButtonBasicImage);
-				ruleButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				ruleButton.setIcon(ruleButtonPressedImage);
-				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				;
+		ruleButton.setRolloverIcon(ruleButtonEnteredImage);
+		ruleButton.setPressedIcon(ruleButtonPressedImage);
+		ruleButton.addMouseListener(createMouseAdapter(ruleButton));
+		ruleButton.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				// WIP
 			}
 		});
 		add(ruleButton);
@@ -219,35 +188,16 @@ public class BlueMarble extends JFrame {
 		quitButton.setBorderPainted(false);
 		quitButton.setContentAreaFilled(false);
 		quitButton.setFocusPainted(false);
-		quitButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				quitButton.setIcon(quitButtonEnteredImage);
-				quitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				quitButton.setIcon(quitButtonBasicImage);
-				quitButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				quitButton.setIcon(quitButtonPressedImage);
-				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// try {
-				// 	Thread.sleep(1000);
-				// } catch (InterruptedException ex) {
-				// 	ex.printStackTrace();
-				// }
+		quitButton.setRolloverIcon(quitButtonEnteredImage);
+		quitButton.setPressedIcon(quitButtonPressedImage);
+		quitButton.addMouseListener(createMouseAdapter(quitButton));
+		quitButton.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
+				}
 				System.exit(0);
 			}
 		});
@@ -292,30 +242,9 @@ public class BlueMarble extends JFrame {
 			button.setBorderPainted(false);
 			button.setContentAreaFilled(false);
 			button.setFocusPainted(false);
-			button.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					button.setIcon(imageEntered);
-					button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-					Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-					buttonEnteredMusic.start();
-				}
-
-				@Override
-				public void mouseExited(MouseEvent e) {
-					button.setIcon(image);
-					button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-				}
-
-				@Override
-				public void mousePressed(MouseEvent e) {
-					button.setIcon(imagePressed);
-					Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-					buttonEnteredMusic.start();
-				}
-				
-				@Override
-				public void mouseReleased(MouseEvent e) {
+			button.addMouseListener(createMouseAdapter(button));
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed (ActionEvent e) {
 					gameStart(numPlayer);
 				}
 			});
