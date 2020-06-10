@@ -1,23 +1,13 @@
 class Coordinate {
-<<<<<<< HEAD
    public int x;
    public int y;
    Coordinate(int _x, int _y){
       this.x = _x;
       this.y = _y;
    }
-=======
-	public int x;
-	public int y;
-	Coordinate(int _x, int _y){
-		this.x = _x;
-		this.y = _y;
-	}
->>>>>>> branch 'PJS' of https://github.com/dotoleeoak/BlueMarble.git
 }
 
 class CoordinateManager {
-<<<<<<< HEAD
    Coordinate buildingCoordinate[][];
    Coordinate playerCoordinate[][] = new Coordinate[4][16];
 
@@ -162,19 +152,5 @@ class CoordinateManager {
    Coordinate getBuildlingCoordinate(int buildingNum, int position) {
       return buildingCoordinate[buildingNum][position];
    }
-=======
-	Coordinate buildingCoordinate[][];
-	Coordinate playerCoordinate[][];
 
-	CoordinateManager() {
-		// read coordinates
-	}
-
-	Coordinate getPlayerCoordinate(int playerNum, int position) {
-		return playerCoordinate[playerNum][position];
-	}
-	Coordinate getBuildlingCoordinate(int buildingNum, int position) {
-		return buildingCoordinate[buildingNum][position];
-	}
->>>>>>> branch 'PJS' of https://github.com/dotoleeoak/BlueMarble.git
 }

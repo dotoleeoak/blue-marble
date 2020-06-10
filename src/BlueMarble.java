@@ -28,7 +28,6 @@ public class BlueMarble extends JFrame {
 	private ImageIcon[] numberImageEntered   = new ImageIcon[3];
 	private ImageIcon[] numberImagePressed   = new ImageIcon[3];
 
-<<<<<<< HEAD
 	private Image boardImage = new ImageIcon(Main.class.getResource("images/board.png")).getImage();
 
 	private Image charaterBackgroundImage_0 = new ImageIcon(Main.class.getResource("images/charaterBackground.png")).getImage();
@@ -36,8 +35,6 @@ public class BlueMarble extends JFrame {
 	private Image charaterBackgroundImage_2 = new ImageIcon(Main.class.getResource("images/charaterBackground.png")).getImage();
 	private Image charaterBackgroundImage_3 = new ImageIcon(Main.class.getResource("images/charaterBackground.png")).getImage();
 
-=======
->>>>>>> branch 'PJS' of https://github.com/dotoleeoak/BlueMarble.git
 	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("images/menuBar.png")));
 
 	private JButton exitButton  = new JButton(exitButtonBasicImage);
@@ -93,7 +90,6 @@ public class BlueMarble extends JFrame {
 			g.drawImage(selectPanelBackgroundImage, 0, 0, null);
 			g.drawImage(selectPanelImage, 400, 260, null);
 		}
-<<<<<<< HEAD
 		if (isGaming) {
 			g.drawImage(boardImage, 0, 0, null);
 			game.screenDraw(g);
@@ -107,8 +103,6 @@ public class BlueMarble extends JFrame {
 					g.drawImage(charaterBackgroundImage_0, 0, 30, null);
 			}
 		}
-=======
->>>>>>> branch 'PJS' of https://github.com/dotoleeoak/BlueMarble.git
 		paintComponents(g);
 		this.repaint();
 	}
