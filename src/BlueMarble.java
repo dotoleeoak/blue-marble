@@ -66,7 +66,9 @@ public class BlueMarble extends JFrame {
 
 		if (isSelecting) {
 			for (JButton button : menuButtons) {
-				button.setVisible(false);
+				if (!button.getName().equals("close")) {
+					button.setVisible(false);
+				}
 			}
 			g.drawImage(selectPanelBackgroundImage, 0, 0, null);
 			g.drawImage(selectPanelImage, 400, 260, null);
@@ -86,28 +88,6 @@ public class BlueMarble extends JFrame {
 		// }
 		paintComponents(g);
 		this.repaint();
-	}
-
-	public static MouseAdapter createMouseAdapter(JButton button) {
-		return new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
-		};
 	}
 
 	public void enterIntro() {
@@ -131,7 +111,7 @@ public class BlueMarble extends JFrame {
 			button.setIcon(new ImageIcon(Main.class.getResource("images/MainMenu/" + button.getName() + "Button.png")));
 			button.setRolloverIcon(new ImageIcon(Main.class.getResource("images/MainMenu/" + button.getName() + "ButtonEntered.png")));
 			button.setPressedIcon(new ImageIcon(Main.class.getResource("images/MainMenu/" + button.getName() + "ButtonPressed.png")));
-			button.addMouseListener(createMouseAdapter(button));
+			button.addMouseListener(new soundingMouseAdapter(button));
 			add(button);
 		}
 
@@ -189,12 +169,6 @@ public class BlueMarble extends JFrame {
 	public void selectPlayer() {
 		isSelecting = true;
 
-		for (JButton button : menuButtons) {
-			if (!button.getName().equals("close")) {
-				button.setVisible(false);
-			}
-		}
-
 		for (int i = 0; i < 3; i++) {
 			int       numPlayer    = i + 2;
 			JButton   button       = numPlayerButtons[i];
@@ -209,14 +183,42 @@ public class BlueMarble extends JFrame {
 			button.setIcon(image);
 			button.setRolloverIcon(imageEntered);
 			button.setPressedIcon(imagePressed);
-			button.addMouseListener(createMouseAdapter(button));
+			button.addMouseListener(new soundingMouseAdapter(button));
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					isSelecting = false;
 					controller.numPlayer = numPlayer;
 					controller.showGame();
 				}
 			});
 			add(button);
 		}
+	}
+}
+
+
+class soundingMouseAdapter extends MouseAdapter {
+	JButton button;
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
+		buttonEnteredMusic.start();
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
+		buttonEnteredMusic.start();
+	}
+
+	soundingMouseAdapter(JButton _button) {
+		button = _button;
 	}
 }
