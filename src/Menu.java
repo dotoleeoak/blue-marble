@@ -3,36 +3,29 @@ import java.awt.event.*;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class BlueMarble extends JFrame {
-
-	private Image screenImage;
-	private Image background;
+public class Menu extends JPanel {
+	private Image background                 = new ImageIcon(Main.class.getResource("images/introBackground.png")).getImage();
 	private Image selectPanelBackgroundImage = new ImageIcon(Main.class.getResource("images/selectPanelBackground.png")).getImage();
 	private Image selectPanelImage           = new ImageIcon(Main.class.getResource("images/MainMenu/selectPanel.png")).getImage();
-
-	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("images/menuBar.png")));
-
+	
 	enum Button { CLOSE, START, RULE, QUIT; }
 	private JButton[] menuButtons;
 	private JButton[] numPlayerButtons;
+	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("images/menuBar.png")));
+	/* TODO: Redesign closeButton icon (transparent) */
+	/* TODO: Inherit menuBar to Main class */
 
 	Music backgroundMusic;
 
 	private int mouseX, mouseY;
 	private boolean isSelecting;
 
-	Controller controller;
+	Main controller;
 
-	BlueMarble(Controller c) {
-		setUndecorated(true);
-		setTitle("율전 마블");
-		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
-		setResizable(false);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-		setBackground(new Color(0, 0, 0, 0));
+	Menu(Main c) {
 		setLayout(null);
+		setBounds(0, 0, Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
+		setBackground(Color.CYAN);
 		
 		menuButtons = new JButton[4];
 		for (int i = 0; i < 4; i++) {
@@ -56,54 +49,28 @@ public class BlueMarble extends JFrame {
 
 	@Override
 	public void paint(Graphics g) {
-		screenImage = createImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
+		Image screenImage = createImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		screenDraw((Graphics2D) screenImage.getGraphics());
 		g.drawImage(screenImage, 0, 0, null);
 	}
-
+	
 	public void screenDraw(Graphics2D g) {
 		g.drawImage(background, 0, 0, null);
-
 		if (isSelecting) {
-			for (JButton button : menuButtons) {
-				if (!button.getName().equals("close")) {
-					button.setVisible(false);
-				}
-			}
-			g.drawImage(selectPanelBackgroundImage, 0, 0, null);
-			g.drawImage(selectPanelImage, 400, 260, null);
+			g.drawImage(selectPanelBackgroundImage, 0, 30, null);
+			g.drawImage(selectPanelImage, 440, 260, null);
 		}
-		// if (isGaming) {
-		// 	g.drawImage(boardImage, 0, 0, null);
-		// 	game.screenDraw(g);
-		// 	switch (numPlayer) {
-		// 		case 4:
-		// 			g.drawImage(charaterBackgroundImage_3, Main.SCREEN_WIDTH - 350, Main.SCREEN_HEIGHT - 100, null);
-		// 		case 3:
-		// 			g.drawImage(charaterBackgroundImage_2, 0, Main.SCREEN_HEIGHT - 100, null);
-		// 		case 2:
-		// 			g.drawImage(charaterBackgroundImage_1, Main.SCREEN_WIDTH - 350, 30, null);
-		// 			g.drawImage(charaterBackgroundImage_0, 0, 30, null);
-		// 	}
-		// }
 		paintComponents(g);
-		this.repaint();
+		repaint();
 	}
 
-	public void enterIntro() {
-		if (backgroundMusic != null)
-			backgroundMusic.close();
-		backgroundMusic = new Music("introMusicNew.mp3", true);
-		backgroundMusic.start();
-
-		background = new ImageIcon(Main.class.getResource("images/introBackground.png")).getImage();
-
+	public void enterIntro() {		
 		/************* ADD BUTTONS (CLOSE, START, RULE, QUIT) *************/
 		menuButtons[Button.CLOSE.ordinal()].setBounds(1245, 0, 30, 30);
 		menuButtons[Button.START.ordinal()].setBounds(135, 350, 235, 75);
 		menuButtons[Button.RULE.ordinal()].setBounds(135, 450, 235, 75);
 		menuButtons[Button.QUIT.ordinal()].setBounds(135, 550, 235, 75);
-
+		
 		for (JButton button : menuButtons) {
 			button.setBorderPainted(false);
 			button.setContentAreaFilled(false);
@@ -114,7 +81,7 @@ public class BlueMarble extends JFrame {
 			button.addMouseListener(new soundingMouseAdapter(button));
 			add(button);
 		}
-
+		
 		menuButtons[Button.START.ordinal()].addActionListener(new ActionListener() {
 			// Set action of START button
 			@Override
@@ -127,12 +94,12 @@ public class BlueMarble extends JFrame {
 			// Set action of RULE button
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Show rules
+				/* TODO: Show rules */
 			}
 		});
-
-		ActionListener close = new ActionListener() {
-			// Save closing action for CLOSE and QUIT button
+		
+		class closeActionListener implements ActionListener {
+			// Action for CLOSE and QUIT button
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -143,10 +110,11 @@ public class BlueMarble extends JFrame {
 				System.exit(0);
 			}
 		};
-
-		menuButtons[Button.CLOSE.ordinal()].addActionListener(close);
-		menuButtons[Button.QUIT.ordinal()].addActionListener(close);
-
+		
+		menuButtons[Button.CLOSE.ordinal()].addActionListener(new closeActionListener());
+		menuButtons[Button.QUIT.ordinal()].addActionListener(new closeActionListener());
+		
+		/******************** ADD menuBar ********************/
 		menuBar.setBounds(0, 0, 1280, 30);
 		menuBar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -164,19 +132,30 @@ public class BlueMarble extends JFrame {
 			}
 		});
 		add(menuBar);
+		
+		
+		if (backgroundMusic != null)
+			backgroundMusic.close();
+		backgroundMusic = new Music("introMusicNew.mp3", true);
+		backgroundMusic.start();
 	}
-
+	
 	public void selectPlayer() {
 		isSelecting = true;
-
+		for (JButton button : menuButtons) {
+			if (!button.getName().equals("close")) {
+				button.setVisible(false);
+			}
+		}
+		
 		for (int i = 0; i < 3; i++) {
 			int       numPlayer    = i + 2;
 			JButton   button       = numPlayerButtons[i];
 			ImageIcon image        = new ImageIcon(Main.class.getResource("images/MainMenu/number" + numPlayer + ".png"));
 			ImageIcon imageEntered = new ImageIcon(Main.class.getResource("images/MainMenu/number" + numPlayer + "entered.png"));
 			ImageIcon imagePressed = new ImageIcon(Main.class.getResource("images/MainMenu/number" + numPlayer + "pressed.png"));
-
-			button.setBounds(460 + 140 * i, 360, 80, 80);
+			
+			button.setBounds(480 + 120 * i, 360, 80, 80);
 			button.setBorderPainted(false);
 			button.setContentAreaFilled(false);
 			button.setFocusPainted(false);
@@ -187,8 +166,7 @@ public class BlueMarble extends JFrame {
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					isSelecting = false;
-					controller.numPlayer = numPlayer;
-					controller.showGame();
+					controller.showGame(numPlayer);
 				}
 			});
 			add(button);
@@ -218,7 +196,7 @@ class soundingMouseAdapter extends MouseAdapter {
 		buttonEnteredMusic.start();
 	}
 
-	soundingMouseAdapter(JButton _button) {
-		button = _button;
+	soundingMouseAdapter(JButton button) {
+		this.button = button;
 	}
 }
