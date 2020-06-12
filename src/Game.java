@@ -1,5 +1,5 @@
 import java.awt.*;
-import java.awt.event.*;
+// import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,14 +19,15 @@ public class Game extends JFrame {
 	ArrayList<Coordinate> coordinateSet = new ArrayList<Coordinate>();
 	ArrayList<Player> playerList = new ArrayList<Player>();
 
-	Game(int _numPlayer) {
-		this.numPlayer = _numPlayer;
-		// setCoordinate();
-		setPlayer();
-		playerIdx = 1;
+	Controller controller;
+
+	Game(Controller c) {
+		controller = c;
 	}
 
-	public void setPlayer() {
+	public void setPlayer(int _numPlayer) {
+		numPlayer = _numPlayer;
+		playerIdx = 1;
 		switch (numPlayer) {
 			case 2:
 				playerList.add(new Player(0, "First"));
