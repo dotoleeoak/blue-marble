@@ -13,10 +13,15 @@ public class Game extends JPanel {
 	// private Image rollDiceButtonImage = new ImageIcon(Main.class.getResource("images/rollDiceButton.png")).getImage();
 
 	private JButton rollDiceButton;
+	private JLabel rollingDice;
 	private JLabel[] labelPlayer;
+	private JLabel[] diceNumber;
+
+	private Coordinate[] coordinatePlayer;
 
 	int numPlayer;
 	int playerIdx;
+	int dice;
 
 	public static CityManager cityManager = new CityManager();
 	public static CoordinateManager coordinateManager = new CoordinateManager();
@@ -34,6 +39,14 @@ public class Game extends JPanel {
 		imagePlayer = new ImageIcon[4];
 		for (int i = 0; i < 4; i++) {
 			imagePlayer[i] = new ImageIcon(Main.class.getResource("images/Board/player" + i + ".png"));
+		}
+
+		diceNumber = new JLabel[6];
+		for (int i = 0; i < 6; i++) {
+			diceNumber[i] = new JLabel(new ImageIcon(Main.class.getResource("images/Board/dice" + (i + 1) + ".png")));
+			diceNumber[i].setBounds(540, 240, 200, 220);
+			diceNumber[i].setVisible(false);
+			add(diceNumber[i]);
 		}
 
 		controller = c;
@@ -54,9 +67,10 @@ public class Game extends JPanel {
 
 	public void init(int numPlayer) {
 		this.numPlayer = numPlayer;
-		playerIdx = 1;
+		playerIdx = 0;
 		playerList = new ArrayList<Player>();
 		labelPlayer = new JLabel[numPlayer];
+		coordinatePlayer = new Coordinate[numPlayer];
 		
 		switch (numPlayer) {
 			case 4:
@@ -71,12 +85,14 @@ public class Game extends JPanel {
 		/********* SHOW PLAYER ICONS *********/
 		for (Player player : playerList) {
 			JLabel label = labelPlayer[player.ID];
-			Coordinate pos = coordinateManager.getPlayerCoordinate(player.ID, player.position);
+			coordinatePlayer[player.ID] = coordinateManager.getPlayerCoordinate(player.ID, player.position);
+			coordinatePlayer[player.ID].x -= 5;
+			coordinatePlayer[player.ID].y -= 15;
 			label = new JLabel(imagePlayer[player.ID]);
-			label.setBounds(pos.x - 5, pos.y - 15, 30, 55);
+			label.setBounds(coordinatePlayer[player.ID].x, coordinatePlayer[player.ID].y, 30, 30);
 			add(label);
 		}
-	
+
 		rollDiceButton = new JButton();
 		rollDiceButton.setBounds(540, 240, 200, 176);
 		rollDiceButton.setBorderPainted(false);
@@ -92,6 +108,12 @@ public class Game extends JPanel {
 			}
 		});
 		add(rollDiceButton);
+
+		rollingDice = new JLabel();
+		rollingDice.setBounds(540, 220, 200, 200);
+		rollingDice.setIcon(new ImageIcon(Main.class.getResource("images/rollingDice_3.gif")));
+		rollingDice.setVisible(false);
+		add(rollingDice);
 	}
 	
 	int rollDice() {
@@ -123,6 +145,36 @@ public class Game extends JPanel {
 	 */
 	public boolean turn() {
 		System.out.println("turn() called.");
+		System.out.println("playerIdx = " + playerIdx);
+		rollDiceButton.setVisible(false);
+		rollingDice.setVisible(true);
+
+		Timer timer = new Timer(2000, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dice = rollDice();
+				rollingDice.setVisible(false);
+				rollDiceButton.setVisible(true);
+				diceNumber[dice - 1].setVisible(true);
+			}
+		});
+
+		timer.start();
+
+		// try {
+		// 	Thread.sleep(2000);
+		// } catch(InterruptedException e) {
+		// 	e.printStackTrace();
+		// }
+
+		// rollingDice.setVisible(false);
+		// rollDiceButton.setVisible(true);
+
+		// labelPlayer[0].setBounds(40, 40, 30, 30);
+		// for (int i = 0; i < 50; i++) {
+		// 	coordinatePlayer[playerIdx].x += 1;
+		// 	labelPlayer[playerIdx].setBounds(coordinatePlayer[playerIdx].x, coordinatePlayer[playerIdx].y, 30, 30);
+		// }
+
 		// Player player = playerList.get(playerIdx);
 		// int currPos = player.position;
 		// int dice = rollDice();
@@ -157,7 +209,7 @@ public class Game extends JPanel {
 		// 	/* use chance */
 		// 	if (player.hasChance()) {
 		// 		player.popChance();
-				
+		
 		// 		if (new Random().nextInt() % 2 == 0) {
 		// 			/* some notification (pop-up) here */
 		// 			// toll free chance
@@ -176,15 +228,16 @@ public class Game extends JPanel {
 		// 		/* some animation here */
 		// 		return false;
 		// 	}
-			
+		
 		// 	playerList.get(owner).earnMoney(cityManager.getToll(nextPos));
-			
+															
 		// 	// 현재 건물 거래가 힘듦 (암튼 힘듦)
 		// 	// int decision = JOptionPane.showConfirmDialog(this, "건물을 인수하시겠어요?");
 		// 	// if (decision == 1) {
 		// 		// }
 		// }
-		
+			
+		playerIdx = (playerIdx + 1) % numPlayer;
 		return true;
 	}
 	
