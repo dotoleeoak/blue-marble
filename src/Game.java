@@ -9,13 +9,14 @@ public class Game extends JPanel {
 
 	private Image screenImage;
 	private Image background = new ImageIcon(Main.class.getResource("images/Board/board.png")).getImage();
+	private ImageIcon buildingIcon = new ImageIcon(Main.class.getResource("images/Board/building.png"));
 	private ImageIcon[] imagePlayer;
-	// private Image rollDiceButtonImage = new ImageIcon(Main.class.getResource("images/rollDiceButton.png")).getImage();
 
 	private JButton rollDiceButton;
 	private JLabel rollingDice;
-	private JLabel[] labelPlayer;
+	private JLabel[] playerLabel;
 	private JLabel[] diceNumber;
+	
 
 	private Coordinate[] coordinatePlayer;
 
@@ -26,7 +27,6 @@ public class Game extends JPanel {
 	public static CityManager cityManager = new CityManager();
 	public static CoordinateManager coordinateManager = new CoordinateManager();
 
-	// ArrayList<Coordinate> coordinateSet = new ArrayList<Coordinate>();
 	ArrayList<Player> playerList;
 
 	Main controller;
@@ -49,6 +49,38 @@ public class Game extends JPanel {
 			add(diceNumber[i]);
 		}
 
+		/********* SHOW PLAYER ICONS *********/
+		playerLabel = new JLabel[4];
+		for (int i = 0; i < 4; i++) {
+			Coordinate coord = coordinateManager.getPlayerCoordinate(i, 0);
+			playerLabel[i] = new JLabel(imagePlayer[i]);
+			playerLabel[i].setBounds(coord.x, coord.y - 5, 30, 30);
+			playerLabel[i].setVisible(false);
+			add(playerLabel[i]);
+		}
+
+		rollDiceButton = new JButton();
+		rollDiceButton.setBounds(540, 240, 200, 176);
+		rollDiceButton.setBorderPainted(false);
+		rollDiceButton.setContentAreaFilled(false);
+		rollDiceButton.setFocusPainted(false);
+		rollDiceButton.setIcon(new ImageIcon(Main.class.getResource("images/Board/rollDiceButton.png")));
+		rollDiceButton.setRolloverIcon(new ImageIcon(Main.class.getResource("images/Board/rollDiceButtonEntered.png")));
+		rollDiceButton.setPressedIcon(new ImageIcon(Main.class.getResource("images/Board/rollDiceButtonPressed.png")));
+		rollDiceButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				turn();
+			}
+		});
+		add(rollDiceButton);
+	
+		rollingDice = new JLabel();
+		rollingDice.setBounds(540, 220, 200, 200);
+		rollingDice.setIcon(new ImageIcon(Main.class.getResource("images/rollingDice_3.gif")));
+		rollingDice.setVisible(false);
+		add(rollingDice);
+
 		controller = c;
 	}
 
@@ -69,8 +101,7 @@ public class Game extends JPanel {
 		this.numPlayer = numPlayer;
 		playerIdx = 0;
 		playerList = new ArrayList<Player>();
-		labelPlayer = new JLabel[numPlayer];
-		coordinatePlayer = new Coordinate[numPlayer];
+		// coordinatePlayer = new Coordinate[numPlayer];
 		
 		switch (numPlayer) {
 			case 4:
@@ -82,42 +113,13 @@ public class Game extends JPanel {
 			playerList.add(new Player(0, "First"));
 		}
 
-		/********* SHOW PLAYER ICONS *********/
-		for (Player player : playerList) {
-			JLabel label = labelPlayer[player.ID];
-			coordinatePlayer[player.ID] = coordinateManager.getPlayerCoordinate(player.ID, player.position);
-			coordinatePlayer[player.ID].x -= 5;
-			coordinatePlayer[player.ID].y -= 15;
-			label = new JLabel(imagePlayer[player.ID]);
-			label.setBounds(coordinatePlayer[player.ID].x, coordinatePlayer[player.ID].y, 30, 30);
-			add(label);
+		for (int i = 0; i < numPlayer; i++) {
+			playerLabel[i].setVisible(true);
 		}
-
-		rollDiceButton = new JButton();
-		rollDiceButton.setBounds(540, 240, 200, 176);
-		rollDiceButton.setBorderPainted(false);
-		rollDiceButton.setContentAreaFilled(false);
-		rollDiceButton.setFocusPainted(false);
-		rollDiceButton.setIcon(new ImageIcon(Main.class.getResource("images/Board/rollDiceButton.png")));
-		rollDiceButton.setRolloverIcon(new ImageIcon(Main.class.getResource("images/Board/rollDiceButtonEntered.png")));
-		rollDiceButton.setPressedIcon(new ImageIcon(Main.class.getResource("images/Board/rollDiceButtonPressed.png")));
-		rollDiceButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				turn();
-			}
-		});
-		add(rollDiceButton);
-
-		rollingDice = new JLabel();
-		rollingDice.setBounds(540, 220, 200, 200);
-		rollingDice.setIcon(new ImageIcon(Main.class.getResource("images/rollingDice_3.gif")));
-		rollingDice.setVisible(false);
-		add(rollingDice);
 	}
 	
 	int rollDice() {
-		return new Random().nextInt() % 6 + 1;
+		return new Random().nextInt(6) + 1;
 	}
 	
 	/*  각 차례에 할 것
@@ -143,36 +145,50 @@ public class Game extends JPanel {
 	 *  2-1. 돈 부족 시, 게임 종료 및 파산
 	 *  3. (시간 남으면) 인수 희망 시 가능
 	 */
+	
 	public boolean turn() {
 		System.out.println("turn() called.");
 		System.out.println("playerIdx = " + playerIdx);
 		rollDiceButton.setVisible(false);
 		rollingDice.setVisible(true);
 
-		Timer timer = new Timer(2000, new ActionListener() {
+		Timer showDiceNumber = new Timer(2000, new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				dice = rollDice();
+				System.out.println("dice number = " + dice);
 				rollingDice.setVisible(false);
-				rollDiceButton.setVisible(true);
 				diceNumber[dice - 1].setVisible(true);
 			}
 		});
-
-		timer.start();
-
-		// try {
-		// 	Thread.sleep(2000);
-		// } catch(InterruptedException e) {
-		// 	e.printStackTrace();
-		// }
+		
+		JLabel label = playerLabel[playerIdx];
+		
+		Timer movePlayer = new Timer(50, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (label.getLocation().x <= 30) {
+					((Timer)e.getSource()).stop();
+					diceNumber[dice - 1].setVisible(false);
+					rollDiceButton.setVisible(true);
+				}
+				label.setLocation(label.getLocation().x - 5, label.getLocation().y);
+				// System.out.println("pos = " + label.getLocation().x + ", " + label.getLocation().y);
+			}
+		});
+		
+		showDiceNumber.setRepeats(false);
+		showDiceNumber.start();
+		movePlayer.setInitialDelay(2000);
+		movePlayer.start();
 
 		// rollingDice.setVisible(false);
 		// rollDiceButton.setVisible(true);
 
-		// labelPlayer[0].setBounds(40, 40, 30, 30);
+		// playerLabel[0].setBounds(40, 40, 30, 30);
 		// for (int i = 0; i < 50; i++) {
 		// 	coordinatePlayer[playerIdx].x += 1;
-		// 	labelPlayer[playerIdx].setBounds(coordinatePlayer[playerIdx].x, coordinatePlayer[playerIdx].y, 30, 30);
+		// 	playerLabel[playerIdx].setBounds(coordinatePlayer[playerIdx].x, coordinatePlayer[playerIdx].y, 30, 30);
 		// }
 
 		// Player player = playerList.get(playerIdx);

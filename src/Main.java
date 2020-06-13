@@ -18,6 +18,8 @@ public class Main extends JFrame{
 		setLayout(null);
 		setVisible(true);
 
+		/* TODO: Implement menuBar here */
+
 		frameMenu = new Menu(this);
 		frameGame = new Game(this);
 		frameMenu.setVisible(true);
@@ -31,7 +33,12 @@ public class Main extends JFrame{
 		frameMenu.setVisible(false);
 		frameGame.setVisible(true);
 		frameGame.init(numPlayer);
-		frameGame.startGame();
+		// frameGame.startGame();
+	}
+
+	public void showMenu() {
+		frameGame.setVisible(false);
+		frameMenu.setVisible(true);
 	}
 	
 	public static void main(String[] args) {
