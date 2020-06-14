@@ -35,8 +35,6 @@ public class Game extends Thread {
 		if (numPlayer == 4) {
 			playerList.add(new Player(2, "Third", this));
 		}
-
-
 		gameGUI = new GameGUI(this);
 		gameGUI.setVisible(true);
 		c.add(gameGUI);
@@ -56,10 +54,14 @@ public class Game extends Thread {
 				while( dice == -1 ){
 					Thread.sleep(500);
 				} //invoke
-				
+				if(dice != -1){
+					gameGUI.offRollingDice();
+					gameGUI.onDiceNumber(dice);
+				}
 				for(int i = 0; i <dice; i++){
 					move(nowPlayer);
 				}
+				gameGUI.offDiceNumber(dice);
 
 				if (reachGround(nowPlayer) == false){
 					gamestep = -1;
@@ -95,7 +97,7 @@ public class Game extends Thread {
 	}
 
 	public void inChance(Player _nowPlayer){
-		_nowPlayer.winChance();
+		_nowPlayer.getChance();
 	}
 	public void inStart(Player _nowPlayer){
 		_nowPlayer.inStart();
@@ -138,34 +140,26 @@ public class Game extends Thread {
 		_nowPlayer.position %= 16;
 		Point nextPoint = coordinateManager.getPlayerPoint(_nowPlayer.ID, _nowPlayer.position);
 		for(int i = 0; i < 50; i++){
-			Point interPoint = new Point( (nextPoint.x*i - (50-i)*prePoint.x)/50 ,(nextPoint.y*i - (50-i)*prePoint.y)/50);
+			Point interPoint = new Point((prePoint.x *(50-i) + nextPoint.x * i)/50, (prePoint.y *(50-i) + nextPoint.y * i)/50 );
 			try {
 				gameGUI.playerMove(_nowPlayer, interPoint);
-				Thread.sleep(20);
+				Thread.sleep(10);
 			}catch(InterruptedException ex) {
 				ex.printStackTrace();
 			}
 		}
+		gameGUI.playerMove(_nowPlayer, nextPoint);
 	}
 
-	void rollDice() {
-		try{
+	public void rollDice() {
+		
 			gameGUI.falseReadyRolling();
 			gameGUI.onRollingDice();
-			
-			TimerTask task = new TimerTask() {
-				@Override
-				public void run() {
-					System.out.println(1);
-				}
-			};
-			Timer timer = new Timer();
-			timer.schedule(task, 3000 );
-	
-			
-			//gameGUI.offRollingDice();
-
 			dice = new Random().nextInt(6) + 1;
+	}
+
+	public void rollOffDice(){
+		try{
 			gameGUI.onDiceNumber(dice);
 			Thread.sleep(1000);
 			gameGUI.offDiceNumber(dice);

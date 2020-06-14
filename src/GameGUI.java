@@ -8,11 +8,14 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
+import java.awt.*;
+import javax.swing.*;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import org.w3c.dom.events.MouseEvent;
 
 public class GameGUI extends JPanel {
     private Image screenImage;
@@ -21,14 +24,19 @@ public class GameGUI extends JPanel {
 	private Image buildingImages = new ImageIcon(Main.class.getResource("images/Board/building.png")).getImage();
 	private ImageIcon[] imagePlayer;
 	private Image rollingDice = new ImageIcon(Main.class.getResource("images/rollingDice_3.gif")).getImage();
+	
+	private ImageIcon backToMenuIcon = new ImageIcon(Main.class.getResource("images/Board/backToMenu.png"));
+	private ImageIcon backToMenuEnteredIcon = new ImageIcon(Main.class.getResource("images/Board/backToMenuEntered.png"));
 
 	private JButton rollDiceButton;
+	private JButton backToMenuButton = new JButton(backToMenuIcon);
+
 	//private JLabel rollingDice;
 	public JLabel[] playerLabel;
 	private JLabel[] diceNumber;
 
 	private boolean readyRolling = false;
-	private boolean rollDice = false;
+	public boolean rollDice = false;
 	Game game;
 	
 	CityManager cityManager;
@@ -108,20 +116,50 @@ public class GameGUI extends JPanel {
 		rollingDice.setVisible(false);
 		add(rollingDice); */
 		
+		backToMenuButton.setBounds(20, 190, 170, 100);
+		backToMenuButton.setBorderPainted(false);
+		backToMenuButton.setContentAreaFilled(false);
+		backToMenuButton.setFocusPainted(false);
+		backToMenuButton.setVisible(true);
+		/* backToMenuButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				backToMenuButton.setIcon(backToMenuEnteredIcon);
+				backToMenuButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
+				buttonEnteredMusic.start();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				backToMenuButton.setIcon(backToMenuIcon);
+				backToMenuButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+			public void mousePressed(MouseEvent e) {
+				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
+				buttonEnteredMusic.start();
+				enterMain();
+				
+			}
+		}); */
+		add(backToMenuButton);
 	}
 	
 	public void onRollingDice(){
 		rollDice = true;
+		rollDiceButton.setVisible(false);
 	}
 	public void offRollingDice(){
 		rollDice = false;
+		
 	}
 
 	public void onDiceNumber(int _diceNum){
 		diceNumber[_diceNum-1].setVisible(true);
+		
 	}
 	public void offDiceNumber(int _diceNum){
 		diceNumber[_diceNum-1].setVisible(false);
+		rollDiceButton.setVisible(true);
 	}
 
 
@@ -152,7 +190,8 @@ public class GameGUI extends JPanel {
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Arial", Font.BOLD, 30));
 		for (int i = 0; i < numPlayer; i++) {
-			g.drawString("Player" + i + "'s property: " + playerList.get(i).money, 20 + (Main.SCREEN_WIDTH-400) * (i%2), 40 + (Main.SCREEN_HEIGHT-60) * (i/2));
+			g.drawString("Player" + i + "'s property: " + playerList.get(i).money, 20 + (Main.SCREEN_WIDTH-400) * (i%2), 40 + (Main.SCREEN_HEIGHT-100) * (i/2));
+			g.drawString("Chance: " + playerList.get(i).numChance, 20 + (Main.SCREEN_WIDTH-400) * (i%2), 70 + (Main.SCREEN_HEIGHT-100) * (i/2));
 		}
 	}
 	public void trueReadyRolling(){
