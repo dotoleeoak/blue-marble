@@ -8,15 +8,15 @@ import java.util.ArrayList;
 // }
 
 class CityManager {
-	
+
 	class City {
 		int ownerID;
 		int price;
 		int toll;
 		String name;
-	
+
 		City(int price, String name) {
-			this.ownerID = -1;  // -1 means nobody 
+			this.ownerID = -1; // -1 means nobody
 			this.price = price;
 			this.toll = 0;
 			this.name = name;
@@ -27,22 +27,22 @@ class CityManager {
 
 	CityManager() {
 		arrayCity = new ArrayList<City>();
-		arrayCity.add(new City(0, "½ÃÀÛ"));
-		arrayCity.add(new City(100, "¼ö¼º°ü"));
-		arrayCity.add(new City(120, "º¥Á¨°í¸®°ü"));
-		arrayCity.add(new City(150, "º¹ÁöÈ¸°ü"));
-		arrayCity.add(new City(0, "Âù½º"));
-		arrayCity.add(new City(200, "ÇÐ»ýÈ¸°ü"));
-		arrayCity.add(new City(250, "Á¦1°øÇÐ°ü"));
-		arrayCity.add(new City(350, "Á¦2°øÇÐ°ü"));
-		arrayCity.add(new City(0, "Lab"));
-		arrayCity.add(new City(400, "Á¾ÇÕ¿¬±¸µ¿"));
-		arrayCity.add(new City(500, "»êÇÐÇù·Â¼¾ÅÍ"));
-		arrayCity.add(new City(600, "¹ÝµµÃ¼°ü"));
-		arrayCity.add(new City(0, "Âù½º"));
-		arrayCity.add(new City(800, "¾àÇÐ°ü"));
-		arrayCity.add(new City(1000, "ÀÇÇÐ°ü"));
-		arrayCity.add(new City(1500, "µðµµ"));
+		arrayCity.add(new City(0, "½ÃÀÛ")); // ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(100, "¼ö¼º°ü")); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(120, "º¥Á¨°í¸®°ü")); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(150, "º¹ÁöÈ¸°ü")); // ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½
+		arrayCity.add(new City(0, "Âù½º")); // ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(200, "ÇÐ»ýÈ¸°ü")); // ï¿½Ð»ï¿½È¸ï¿½ï¿½
+		arrayCity.add(new City(250, "Á¦1°øÇÐ°ü")); // ï¿½ï¿½1ï¿½ï¿½ï¿½Ð°ï¿½
+		arrayCity.add(new City(350, "Á¦2°øÇÐ°ü")); // ï¿½ï¿½2ï¿½ï¿½ï¿½Ð°ï¿½
+		arrayCity.add(new City(0, "Lab")); // Lab
+		arrayCity.add(new City(400, "Á¾ÇÕ¿¬±¸µ¿")); // ï¿½ï¿½ï¿½Õ¿ï¿½ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(500, "»êÇÐÇù·Â¼¾ÅÍ")); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
+		arrayCity.add(new City(600, "¹ÝµµÃ¼°ü")); // ï¿½Ýµï¿½Ã¼ï¿½ï¿½
+		arrayCity.add(new City(0, "Âù½º")); // ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(800, "¾àÇÐ°ü")); // ï¿½ï¿½ï¿½Ð°ï¿½
+		arrayCity.add(new City(1000, "ÀÇÇÐ°ü")); // ï¿½ï¿½ï¿½Ð°ï¿½
+		arrayCity.add(new City(1500, "µðµµ")); // ï¿½ï¿½
 	}
 
 	public int owner(int idx) {
@@ -77,4 +77,3 @@ class CityManager {
 		city.toll += city.price / 2;
 	}
 }
-
