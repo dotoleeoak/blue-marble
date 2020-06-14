@@ -128,23 +128,23 @@ public class Game extends JPanel {
 	}
 
 	/*
-	 * °¢ Â÷·Ê¿¡ ÇÒ °Í
+	 * ï¿½ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½ ï¿½ï¿½
 	 * 
-	 * 1. ÁÖ»çÀ§ ¹öÆ° ´ë±â
+	 * 1. ï¿½Ö»ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½
 	 * 
-	 * 2. ÁÖ»çÀ§ ´øÁö±â
+	 * 2. ï¿½Ö»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
-	 * 3. ÁÖ»çÀ§ ¼ýÀÚ ÀúÀå
+	 * 3. ï¿½Ö»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 * 
-	 * 4. ÇÃ·¹ÀÌ¾î ÀÌµ¿ (ÇÑ Ä­¾¿) [ÇÑ Ä­¾¿ ÀÌµ¿ÇÏ¸ç ¿¡´Ï¸ÞÀÌ¼Ç(?)]
+	 * 4. ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ìµï¿½ (ï¿½ï¿½ Ä­ï¿½ï¿½) [ï¿½ï¿½ Ä­ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½Ì¼ï¿½(?)]
 	 * 
-	 * 5. °Ç¹° ¼ÒÀ¯ ¿©ºÎ È®ÀÎ
+	 * 5. ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	 * 
-	 * if-1) ¼ÒÀ¯ÇÑ »ç¶÷ ¾øÀ½ 1. °Ç¹° ±¸¸Å ¿©ºÎ Áú¹® 2-1. ±¸¸Å ½Ã, µ· Â÷°¨ ¹× ¼ÒÀ¯ÁÖ ÁöÁ¤ 2-2. ±¸¸Å ¾ÈÇÏ¸é, ±×³É pass
+	 * if-1) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 1. ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2-1. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2-2. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½, ï¿½×³ï¿½ pass
 	 * 
-	 * if-2) ¼ÒÀ¯ÇÑ »ç¶÷ º»ÀÎ 1. ºôµù ±¸¸Å ¿©ºÎ Áú¹® 2-1. ±¸¸Å ½Ã, µ· Â÷°¨ ¹× ºôµù Ãß°¡s 2-2. ±¸¸Å ¾ÈÇÏ¸é, ±×³É pass
+	 * if-2) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 1. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2-1. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½s 2-2. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½, ï¿½×³ï¿½ pass
 	 * 
-	 * if-3) ¼ÒÀ¯ÇÑ »ç¶÷ Å¸ÀÎ 1. µ· Â÷°¨ 2-1. µ· ºÎÁ· ½Ã, °ÔÀÓ Á¾·á ¹× ÆÄ»ê 3. (½Ã°£ ³²À¸¸é) ÀÎ¼ö Èñ¸Á ½Ã °¡´É
+	 * if-3) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ 1. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2-1. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ä»ï¿½ 3. (ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½) ï¿½Î¼ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 */
 
@@ -231,6 +231,7 @@ public class Game extends JPanel {
 		/* TODO: wait while moving is complete */
 
 		int owner = cityManager.owner(player.position);
+		String cityName = cityManager.getName(player.position);
 
 		if (player.position == 8) {
 			// if player reaches lab,
@@ -240,13 +241,13 @@ public class Game extends JPanel {
 			player.winChance();
 		} else if (owner == -1) {
 			// if there is no owner in the current city,
-			int decision = JOptionPane.showConfirmDialog(this, "Will you buy this city?");
+			int decision = JOptionPane.showConfirmDialog(this, "Will you buy "+cityName+"?");
 			if (decision == 1) {
 				cityManager.buyCity(player.position, player.ID);
 			}
 		} else if (owner == player.ID) {
 			// if the owner is player himself,
-			int decision = JOptionPane.showConfirmDialog(this, "Will you build a building?");
+			int decision = JOptionPane.showConfirmDialog(this, "Will you build a building on "+cityName+"?");
 			if (decision == 1) {
 				cityManager.buyBuilding(player.position, player.ID);
 			}
@@ -278,8 +279,8 @@ public class Game extends JPanel {
 
 			playerList.get(owner).earnMoney(cityManager.getToll(player.position));
 
-			// ÇöÀç °Ç¹° °Å·¡°¡ Èûµê (¾ÏÆ° Èûµê)
-			// int decision = JOptionPane.showConfirmDialog(this, "°Ç¹°À» ÀÎ¼öÇÏ½Ã°Ú¾î¿ä?");
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ ï¿½Å·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½)
+			// int decision = JOptionPane.showConfirmDialog(this, "ï¿½Ç¹ï¿½ï¿½ï¿½ ï¿½Î¼ï¿½ï¿½Ï½Ã°Ú¾ï¿½ï¿½?");
 			// if (decision == 1) {
 			// }
 		}
