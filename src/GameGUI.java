@@ -18,6 +18,7 @@ public class GameGUI extends JPanel {
     private Image screenImage;
 	private Image background = new ImageIcon(Main.class.getResource("images/Board/board.png")).getImage();
 	private ImageIcon buildingIcon = new ImageIcon(Main.class.getResource("images/Board/building.png"));
+	private Image buildingImages = new ImageIcon(Main.class.getResource("images/Board/building.png")).getImage();
 	private ImageIcon[] imagePlayer;
 
 	private JButton rollDiceButton;
@@ -69,6 +70,18 @@ public class GameGUI extends JPanel {
 			playerLabel[i].setVisible(true);
 		} 
 
+		/* buildingImages = new Image[16][2];
+		for (int i = 0; i < 16; i++) {
+			for(int j = 0; j < 2; j++){
+				Point point = coordinateManager.getBuildingPoint(i,j);
+				buildingImages[i][j] = buildingIcon.getImage();
+				buildingImages[i][j].setSize(29,44);
+				buildingImages[i][j].setLocation(point.x, point.y);
+				buildingImages[i][j].setVisible(false);
+			}
+		add(buildingImages[i][j]); */
+
+
 		rollDiceButton = new JButton();
 		rollDiceButton.setBounds(540, 240, 200, 176);
 		rollDiceButton.setBorderPainted(false);
@@ -103,6 +116,13 @@ public class GameGUI extends JPanel {
 
 	public void screenDraw(Graphics2D g) {
 		g.drawImage(background, 0, 0, null);
+		for(int i = 0; i < 16; i++){
+			for(int j = 0; j < 2; j++){
+				if( cityManager.builed(i,j)  ){
+					g.drawImage(buildingImages, coordinateManager.getBuildingPoint(i,j).x, coordinateManager.getBuildingPoint(i,j).y,null);
+				}
+			}
+		}
 		paintComponents(g);
 		writeMoney(g);
 		repaint();
@@ -113,7 +133,7 @@ public class GameGUI extends JPanel {
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Arial", Font.BOLD, 30));
 		for (int i = 0; i < numPlayer; i++) {
-			g.drawString("Player" + i + "'s property: " + playerList.get(0).money, 20 + (Main.SCREEN_WIDTH-400) * (i%2), 40 + (Main.SCREEN_HEIGHT-60) * (i/2));
+			g.drawString("Player" + i + "'s property: " + playerList.get(i).money, 20 + (Main.SCREEN_WIDTH-400) * (i%2), 40 + (Main.SCREEN_HEIGHT-60) * (i/2));
 		}
 	}
 	public void trueReadyRolling(){
