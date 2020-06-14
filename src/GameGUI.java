@@ -1,25 +1,13 @@
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import org.w3c.dom.events.MouseEvent;
+import java.util.ArrayList;
 
 public class GameGUI extends JPanel {
     private Image screenImage;
 	private Image background = new ImageIcon(Main.class.getResource("images/Board/board.png")).getImage();
+	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("images/menuBar.png")));
+
 	private ImageIcon buildingIcon = new ImageIcon(Main.class.getResource("images/Board/building.png"));
 	private Image buildingImages = new ImageIcon(Main.class.getResource("images/Board/building.png")).getImage();
 	private ImageIcon[] imagePlayer;
@@ -43,7 +31,8 @@ public class GameGUI extends JPanel {
 	PointManager coordinateManager;
 	int numPlayer;
 	ArrayList<Player> playerList;
-    
+	private int mouseX, mouseY;
+	
     GameGUI(Game _game){
 		game = _game;
 		cityManager = game.cityManager;
@@ -91,7 +80,6 @@ public class GameGUI extends JPanel {
 			}
 		add(buildingImages[i][j]); */
 
-
 		rollDiceButton = new JButton();
 		rollDiceButton.setBounds(540, 240, 200, 176);
 		rollDiceButton.setBorderPainted(false);
@@ -103,54 +91,45 @@ public class GameGUI extends JPanel {
 		rollDiceButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(readyRolling){
-					game.rollDice();
-				}
+				game.rollDice();
+				onRollingDice();
 			}
 		});
 		add(rollDiceButton);
 
-		/* rollingDice = new JLabel();
-		rollingDice.setBounds(540, 220, 200, 200);
-		rollingDice.setIcon(new ImageIcon(Main.class.getResource("images/rollingDice_3.gif")));
-		rollingDice.setVisible(false);
-		add(rollingDice); */
-		
-		backToMenuButton.setBounds(20, 190, 170, 100);
+/* 		backToMenuButton.setBounds(20, 190, 170, 100);
 		backToMenuButton.setBorderPainted(false);
 		backToMenuButton.setContentAreaFilled(false);
 		backToMenuButton.setFocusPainted(false);
 		backToMenuButton.setVisible(true);
-		/* backToMenuButton.addMouseListener(new MouseAdapter() {
+
+		add(backToMenuButton); */
+
+		menuBar.setBounds(0, 0, 1280, 30);
+		menuBar.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				backToMenuButton.setIcon(backToMenuEnteredIcon);
-				backToMenuButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				Music buttonEnteredMusic = new Music("buttonEnteredMusic.mp3", false);
-				buttonEnteredMusic.start();
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				backToMenuButton.setIcon(backToMenuIcon);
-				backToMenuButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			}
 			public void mousePressed(MouseEvent e) {
-				Music buttonEnteredMusic = new Music("buttonPressedMusic.mp3", false);
-				buttonEnteredMusic.start();
-				enterMain();
-				
+				mouseX = e.getX();
+				mouseY = e.getY();
 			}
-		}); */
-		add(backToMenuButton);
+		});
+		menuBar.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				int x = e.getXOnScreen();
+				int y = e.getYOnScreen();
+				setLocation(x - mouseX, y - mouseY);
+			}
+		});
+		add(menuBar);
 	}
-	
+
 	public void onRollingDice(){
 		rollDice = true;
 		rollDiceButton.setVisible(false);
 	}
 	public void offRollingDice(){
 		rollDice = false;
-		
 	}
 
 	public void onDiceNumber(int _diceNum){
@@ -193,13 +172,6 @@ public class GameGUI extends JPanel {
 			g.drawString("Player" + i + "'s property: " + playerList.get(i).money, 20 + (Main.SCREEN_WIDTH-400) * (i%2), 40 + (Main.SCREEN_HEIGHT-100) * (i/2));
 			g.drawString("Chance: " + playerList.get(i).numChance, 20 + (Main.SCREEN_WIDTH-400) * (i%2), 70 + (Main.SCREEN_HEIGHT-100) * (i/2));
 		}
-	}
-	public void trueReadyRolling(){
-		readyRolling = true;
-	}
-
-	public void falseReadyRolling(){
-		readyRolling = false;
 	}
 
 	public void playerMove(Player _nowPlayer, Point _interPoint){

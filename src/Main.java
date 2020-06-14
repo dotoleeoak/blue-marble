@@ -8,6 +8,7 @@ public class Main extends JFrame{
 	Menu frameMenu;
 	Game game;
 	GameGUI gameGUI;
+	
 	Main() {
 		setTitle("marble");
 		setUndecorated(true);

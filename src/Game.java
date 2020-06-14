@@ -50,7 +50,6 @@ public class Game extends Thread {
 			do {
 				Player nowPlayer = playerList.get(playerIdx);
 				dice = -1;
-				gameGUI.trueReadyRolling();
 				while( dice == -1 ){
 					Thread.sleep(500);
 				} //invoke
@@ -68,7 +67,7 @@ public class Game extends Thread {
 				}
 				
 				playerIdx++;
-				playerIdx %= 4;
+				playerIdx %= numPlayer;
 			}while(gamestep != -1);
 			// @ add game exit message
 		}catch(Exception e) {
@@ -115,6 +114,27 @@ public class Game extends Thread {
 			}
 		}else{
 			//@ check chance
+			if( _nowPlayer.numChance > 0 ){
+				int decision = JOptionPane.showConfirmDialog(new JPanel(), "Will you use chane?");
+				_nowPlayer.numChance--;
+				if( decision == 0){
+					int randomChance = new Random().nextInt(2);
+					if(randomChance == 0){ // 50%
+						JOptionPane.showMessageDialog(null, "you need to pay just 50% toll. Player " + _nowPlayer.ID + " lose " + _cityManager.getToll(_nowPlayer.position)/2 + " won");
+						//owner earn 
+						playerList.get(_cityManager.owner(_nowPlayer.position)).earnMoney( _cityManager.getToll(_nowPlayer.position)/2 );
+						//mover paid
+						return _nowPlayer.payToll(_cityManager.getToll(_nowPlayer.position)/2);
+					}else{	//200%
+						JOptionPane.showMessageDialog(null, "you need to pay just 200% toll. Player " + _nowPlayer.ID + " lose " + _cityManager.getToll(_nowPlayer.position)*2 + " won");
+						//owner earn 
+						playerList.get(_cityManager.owner(_nowPlayer.position)).earnMoney( _cityManager.getToll(_nowPlayer.position)*2 );
+						//mover paid
+						return _nowPlayer.payToll(_cityManager.getToll(_nowPlayer.position)*2);
+					}
+				}
+			}
+			//default
 			JOptionPane.showMessageDialog(null, "Player " + _nowPlayer.ID + " lose " + _cityManager.getToll(_nowPlayer.position) + " won");
 			//owner earn 
 			playerList.get(_cityManager.owner(_nowPlayer.position)).earnMoney( _cityManager.getToll(_nowPlayer.position) );
@@ -152,10 +172,7 @@ public class Game extends Thread {
 	}
 
 	public void rollDice() {
-		
-			gameGUI.falseReadyRolling();
-			gameGUI.onRollingDice();
-			dice = new Random().nextInt(6) + 1;
+		dice = new Random().nextInt(6) + 1;
 	}
 
 	public void rollOffDice(){
