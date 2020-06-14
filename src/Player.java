@@ -1,6 +1,8 @@
 // import java.util.ArrayList;
 import java.awt.Point;
 
+import javax.swing.JOptionPane;
+
 public class Player extends Thread{
 	int ID;
 	String name;
@@ -17,7 +19,7 @@ public class Player extends Thread{
 	Player(int _id, String _name, Game _game) {
 		ID = _id;
 		name = _name;
-		money = 2000;
+		money = 3000;
 		position = 0;
 		numThesis = 0;
 		numChance = 0;
@@ -29,7 +31,7 @@ public class Player extends Thread{
 		numThesis += 3;
 	}
 
-	public void winChance() {
+	public void getChance() {
 		numChance += 1;
 	}
 	public void inStart(){
