@@ -98,13 +98,24 @@ public class Game extends Thread {
 		_nowPlayer.inStart();
 	}
 	public boolean inCity(Player _nowPlayer, CityManager _cityManager){
-		//@ check chance
+		
 		
 		if(_cityManager.owner(_nowPlayer.position) == -1){
+			//@ button for buy or not?
+			if( _nowPlayer.buyCity(_cityManager.getPrice(_nowPlayer.position)) ){
+				cityManager.buyCity(_nowPlayer.position, _nowPlayer.ID);
+			}
 			return true;
 		}else if( _cityManager.owner(_nowPlayer.position) == _nowPlayer.ID ){
+			//@ button for buy or not?
+			if (  _nowPlayer.buyBuilding(_cityManager.getPriceBuilding(_nowPlayer.position)) ){
+				cityManager.buyBuilding(_nowPlayer.position, _nowPlayer.ID);
+			}
+			
 			return true;
 		}else{
+			//@ check chance
+			
 			//owner earn 
 			playerList.get(_cityManager.owner(_nowPlayer.position)).earnMoney( _cityManager.getToll(_nowPlayer.position) );
 			//mover paid
