@@ -44,6 +44,14 @@ public class Player extends Thread{
 		return numThesis > 0;
 	}
 
+	public int getThesis() {
+		return 4 - numThesis;
+	}
+
+	public void decreLab(){
+		numThesis--;	
+	}
+
 	public void increChance() {
 		numChance += 1;
 	}
@@ -69,11 +77,7 @@ public class Player extends Thread{
 	}
 
 	public void payToll(int _toll) {
-		// if (money < _toll) {
-		// 	return false;
-		// }
 		money -= _toll;
-		// return money < 0;
 	}
 
 	public boolean buyCity(int _price) {
