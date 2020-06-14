@@ -13,11 +13,14 @@ class CityManager {
 		int ownerID;
 		int price;
 		int toll;
+		boolean[] buildedBuilnding = new boolean[2];
 	
 		City(int price) {
 			this.ownerID = -1;  // -1 means nobody 
 			this.price = price;
 			this.toll = 0;
+			buildedBuilnding[0] = false;
+			buildedBuilnding[1] = false;
 		}
 	}
 
@@ -45,6 +48,9 @@ class CityManager {
 
 	public int owner(int idx) {
 		return arrayCity.get(idx).ownerID;
+	}
+	public boolean builed(int _position, int _buildingSort){
+		return arrayCity.get(_position).buildedBuilnding[_buildingSort];
 	}
 
 	public int getPrice(int idx) {
