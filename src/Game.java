@@ -123,10 +123,10 @@ public class Game extends Thread {
 				player.popChance();
 				if( decision == 0){
 					int randomChance = new Random().nextInt(2);
-					if (randomChance == 0) { // 50%
+					if (randomChance == 0) {  // 50%
 						toll = cityManager.getToll(position) / 2;
 						JOptionPane.showMessageDialog(null, "you need to pay just 50% toll. Player " + ID + " lose " + toll + " won");
-					} else if (randomChance == 1) {	//200%
+					} else if (randomChance == 1) {	 // 200%
 						toll = cityManager.getToll(position) * 2;
 						JOptionPane.showMessageDialog(null, "you need to pay 200% toll. Player " + ID + " lose " + toll + " won");
 					}
