@@ -1,7 +1,7 @@
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
-
+import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -54,9 +54,9 @@ public class Game extends Thread {
 				dice = -1;
 				gameGUI.trueReadyRolling();
 				while( dice == -1 ){
-					Thread.sleep(1000);
+					Thread.sleep(500);
 				} //invoke
-				gameGUI.falseReadyRolling();
+				
 				for(int i = 0; i <dice; i++){
 					move(nowPlayer);
 				}
@@ -149,7 +149,29 @@ public class Game extends Thread {
 	}
 
 	void rollDice() {
-		dice = new Random().nextInt(6) + 1;
+		try{
+			gameGUI.falseReadyRolling();
+			gameGUI.onRollingDice();
+			
+			TimerTask task = new TimerTask() {
+				@Override
+				public void run() {
+					System.out.println(1);
+				}
+			};
+			Timer timer = new Timer();
+			timer.schedule(task, 3000 );
+	
+			
+			//gameGUI.offRollingDice();
+
+			dice = new Random().nextInt(6) + 1;
+			gameGUI.onDiceNumber(dice);
+			Thread.sleep(1000);
+			gameGUI.offDiceNumber(dice);
+		}catch(InterruptedException ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public void close() {

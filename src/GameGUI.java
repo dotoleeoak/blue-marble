@@ -20,13 +20,15 @@ public class GameGUI extends JPanel {
 	private ImageIcon buildingIcon = new ImageIcon(Main.class.getResource("images/Board/building.png"));
 	private Image buildingImages = new ImageIcon(Main.class.getResource("images/Board/building.png")).getImage();
 	private ImageIcon[] imagePlayer;
+	private Image rollingDice = new ImageIcon(Main.class.getResource("images/rollingDice_3.gif")).getImage();
 
 	private JButton rollDiceButton;
-	private JLabel rollingDice;
+	//private JLabel rollingDice;
 	public JLabel[] playerLabel;
 	private JLabel[] diceNumber;
 
 	private boolean readyRolling = false;
+	private boolean rollDice = false;
 	Game game;
 	
 	CityManager cityManager;
@@ -100,12 +102,28 @@ public class GameGUI extends JPanel {
 		});
 		add(rollDiceButton);
 
-		rollingDice = new JLabel();
+		/* rollingDice = new JLabel();
 		rollingDice.setBounds(540, 220, 200, 200);
 		rollingDice.setIcon(new ImageIcon(Main.class.getResource("images/rollingDice_3.gif")));
 		rollingDice.setVisible(false);
-		add(rollingDice);
-    }
+		add(rollingDice); */
+		
+	}
+	
+	public void onRollingDice(){
+		rollDice = true;
+	}
+	public void offRollingDice(){
+		rollDice = false;
+	}
+
+	public void onDiceNumber(int _diceNum){
+		diceNumber[_diceNum-1].setVisible(true);
+	}
+	public void offDiceNumber(int _diceNum){
+		diceNumber[_diceNum-1].setVisible(false);
+	}
+
 
     @Override
 	public void paint(Graphics g) {
@@ -123,6 +141,7 @@ public class GameGUI extends JPanel {
 				}
 			}
 		}
+		if(rollDice) g.drawImage(rollingDice, 540, 220, null);
 		paintComponents(g);
 		writeMoney(g);
 		repaint();
@@ -141,7 +160,7 @@ public class GameGUI extends JPanel {
 	}
 
 	public void falseReadyRolling(){
-		readyRolling = true;
+		readyRolling = false;
 	}
 
 	public void playerMove(Player _nowPlayer, Point _interPoint){
