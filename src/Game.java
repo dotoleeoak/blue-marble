@@ -2,6 +2,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 @SuppressWarnings("serial")
 public class Game extends Thread {
 
@@ -99,28 +102,34 @@ public class Game extends Thread {
 	}
 	public boolean inCity(Player _nowPlayer, CityManager _cityManager){
 		
-		
+		String cityName = _cityManager.getName(_nowPlayer.position);
 		if(_cityManager.owner(_nowPlayer.position) == -1){
 			//@ button for buy or not?
-			if( _nowPlayer.buyCity(_cityManager.getPrice(_nowPlayer.position)) ){
-				cityManager.buyCity(_nowPlayer.position, _nowPlayer.ID);
+			int decision = JOptionPane.showConfirmDialog(new JPanel(), "Will you buy "+cityName+"?");
+			if( decision == 0){
+				if( _nowPlayer.buyCity(_cityManager.getPrice(_nowPlayer.position)) ){
+					cityManager.buyCity(_nowPlayer.position, _nowPlayer.ID);
+				}
 			}
-			return true;
-		}else if( _cityManager.owner(_nowPlayer.position) == _nowPlayer.ID ){
-			//@ button for buy or not?
-			if (  _nowPlayer.buyBuilding(_cityManager.getPriceBuilding(_nowPlayer.position)) ){
-				cityManager.buyBuilding(_nowPlayer.position, _nowPlayer.ID);
-			}
-			
-			return true;
 		}else{
 			//@ check chance
-			
+			JOptionPane.showMessageDialog(null, "Player " + _nowPlayer.ID + " lose " + _cityManager.getToll(_nowPlayer.position) + " won");
 			//owner earn 
 			playerList.get(_cityManager.owner(_nowPlayer.position)).earnMoney( _cityManager.getToll(_nowPlayer.position) );
 			//mover paid
 			return _nowPlayer.payToll(_cityManager.getToll(_nowPlayer.position));
 		}
+
+		if( _cityManager.owner(_nowPlayer.position) == _nowPlayer.ID ){
+			//@ button for buy or not?
+			int decision = JOptionPane.showConfirmDialog(new JPanel(), "Will you build a building on "+cityName+"?");
+			if(decision == 0){
+				if (  _nowPlayer.buyBuilding(_cityManager.getPriceBuilding(_nowPlayer.position)) ){
+					cityManager.buyBuilding(_nowPlayer.position, _nowPlayer.ID);
+				}	
+			}
+		}
+		return true;
 	}
 
 	public void move(Player _nowPlayer){
