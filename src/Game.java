@@ -148,6 +148,10 @@ public class Game extends JPanel {
 	 * 
 	 */
 
+	/*
+	 * Every time rollDiceButton is pressed, call this method. This method defines
+	 * things to do in each turn.
+	 */
 	public boolean turn() {
 		System.out.println("turn() called.");
 		rollDiceButton.setVisible(false);
@@ -155,12 +159,11 @@ public class Game extends JPanel {
 
 		Player player = playerList.get(playerIdx);
 		dice = rollDice();
-		// boolean diceRolled = false;
 
+		// Action that displays number after delay
 		Timer showDiceNumber = new Timer(2000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// diceRolled = true;
 				rollingDice.setVisible(false);
 				diceNumber[dice - 1].setVisible(true);
 			}
@@ -168,11 +171,14 @@ public class Game extends JPanel {
 
 		JLabel label = playerLabel[playerIdx];
 
+		// Display the number of dice (excute just once)
 		showDiceNumber.setRepeats(false);
 		showDiceNumber.start();
 
+		// Move player just one block
 		player.position = (player.position + 1) % 16;
 
+		// Action that moves player
 		Timer movePlayer = new Timer(20, new ActionListener() {
 			Point pointCurr = label.getLocation();
 			Point pointDest = coordinateManager.getPlayerPoint(player.ID, player.position);
@@ -185,16 +191,16 @@ public class Game extends JPanel {
 				Point currPoint = label.getLocation();
 				if (Math.abs(currPoint.x - pointDest.x) < Math.abs(dx)
 						|| Math.abs(currPoint.y - pointDest.y) < Math.abs(dy)) {
-					/* TODO: Implement moving more than once */
-					// System.out.println("stopping action...");
+					// If the label reaches destination, do the follwings.
 					label.setLocation(pointDest.x, pointDest.y);
 
 					if (count == dice) {
+						// If the player has reached destination, terminate this action.
 						((Timer) e.getSource()).stop();
 						diceNumber[dice - 1].setVisible(false);
 						moved = true;
-						// rollDiceButton.setVisible(true);
 					} else {
+						// If the player has to move more, set destination to next block.
 						pointCurr = pointDest;
 						player.position = (player.position + 1) % 16;
 						pointDest = coordinateManager.getPlayerPoint(player.ID, player.position);
@@ -207,79 +213,57 @@ public class Game extends JPanel {
 			}
 		});
 
+		// Move a player (-> animation) after dice is rolled (2 sec)
 		movePlayer.setInitialDelay(2000);
 		movePlayer.start();
-		// for (moveRemain = dice; moveRemain > 0; moveRemain--) {
-		// System.out.println("pointCurr = (" + pointCurr.x + ", " + pointCurr.y + ")");
-		// System.out.println("pointDest = (" + pointDest.x + ", " + pointDest.y + ")");
-		// System.out.println("dx = " + dx + ", dy = " + dy);
 
-		// Point currPoint = label.getLocation();
-		// System.out.println("x = " + currPoint.x + ", y = " + currPoint.y);
-		// System.out.println("-------------------------------------------");
-
-		// System.out.println("moving terminated.");
-
-		// rollingDice.setVisible(false);
-		// rollDiceButton.setVisible(true);
-
-		// playerLabel[0].setBounds(40, 40, 30, 30);
-		// for (int i = 0; i < 50; i++) {
-		// coordinatePlayer[playerIdx].x += 1;
-		// playerLabel[playerIdx].setBounds(coordinatePlayer[playerIdx].x,
-		// coordinatePlayer[playerIdx].y, 30, 30);
+		// try {
+		// synchronized (this) {
+		// while (!moved) {
+		// this.wait();
+		// }
+		// moved = false;
+		// }
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
 		// }
 
-		// Player player = playerList.get(playerIdx);
-		// int dice = rollDice();
-
-		// /* wait for dice roll button */
-
-		// /* (animation) rolling dice */
-
-		// /* print dice number */
-
-		// /* (animation) moving character */
-
-		try {
-			synchronized (this) {
-				while (!moved) {
-					this.wait();
-				}
-				moved = false;
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		/* TODO: wait while moving is complete */
 
 		int owner = cityManager.owner(player.position);
 
 		if (player.position == 8) {
+			// if player reaches lab,
 			player.lab();
 		} else if (player.position == 4 || player.position == 12) {
+			// if player reaches chance,
 			player.winChance();
 		} else if (owner == -1) {
-			int decision = JOptionPane.showConfirmDialog(this, "부지를 구매하시겠어요?");
+			// if there is no owner in the current city,
+			int decision = JOptionPane.showConfirmDialog(this, "Will you buy this city?");
 			if (decision == 1) {
 				cityManager.buyCity(player.position, player.ID);
 			}
 		} else if (owner == player.ID) {
-			int decision = JOptionPane.showConfirmDialog(this, "건물을 지으시겠어요?");
+			// if the owner is player himself,
+			int decision = JOptionPane.showConfirmDialog(this, "Will you build a building?");
 			if (decision == 1) {
 				cityManager.buyBuilding(player.position, player.ID);
 			}
 		} else {
+			// if the owner is another player,
 			/* use chance */
+			// chance: (50% probability each) the toll is FREE or DOUBLE
 			if (player.hasChance()) {
 				player.popChance();
 
 				if (new Random().nextInt() % 2 == 0) {
 					/* some notification (pop-up) here */
 					// toll free chance
-					JOptionPane.showMessageDialog(this, "찬스 카드에서 통행료 면제 효과 발동!");
+					JOptionPane.showMessageDialog(this, "Toll got free by chance");
 				} else {
 					// toll x2 chance
-					JOptionPane.showMessageDialog(this, "찬스 카드에서 바가지 효과 발동!");
+					JOptionPane.showMessageDialog(this, "Toll got double by chance");
 					if (!player.payToll(player.position)) {
 						/* some animation here */
 						return false;
@@ -300,28 +284,15 @@ public class Game extends JPanel {
 			// }
 		}
 
+		/* TODO: Show rollDiceButton again */
+
 		playerIdx = (playerIdx + 1) % numPlayer;
 		return true;
 	}
 
-	public void startGame() {
-		// 파산하면 while 종료
-		// while (turn()) {
-		// playerIdx = (playerIdx + 1) % numPlayer;
-		// }
-		// try {
-		// Thread.sleep(3000);
-		// } catch(InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// JOptionPane.showMessageDialog(this, ""+playerIdx+"번 플레이어 파산!");
-
-		// int player.position = playerList.get(currentPlayer).nextPosition(rollDice());
-		// Coordinate coord = coordinateManager.getPlayerPoint(currentPlayer,
-		// player.position);
-
-	}
-
+	/*
+	 * if turn() methond returns false, call this to go back to menu
+	 */
 	public void stopGame() {
 
 	}
