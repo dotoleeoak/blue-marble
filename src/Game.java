@@ -72,10 +72,13 @@ public class Game extends JPanel {
 		rollDiceButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean flag = turn();
-				if (!flag) {
-					stopGame();
-				}
+				new Thread(new Runnable() {
+					public void run() {
+						boolean flag = turn();
+						if (!flag)
+							stopGame();
+					}
+				}).start(); 
 			}
 		});
 		add(rollDiceButton);
@@ -130,7 +133,7 @@ public class Game extends JPanel {
 	/*
 	 * �� ���ʿ� �� ��
 	 * 
-	 * 1. �ֻ��� ��ư ���
+	 * 1. �ֻ��� ��ư ���?
 	 * 
 	 * 2. �ֻ��� ������
 	 * 
@@ -140,11 +143,11 @@ public class Game extends JPanel {
 	 * 
 	 * 5. �ǹ� ���� ���� Ȯ��
 	 * 
-	 * if-1) ������ ��� ���� 1. �ǹ� ���� ���� ���� 2-1. ���� ��, �� ���� �� ������ ���� 2-2. ���� ���ϸ�, �׳� pass
+	 * if-1) ������ ���? ���� 1. �ǹ� ���� ���� ���� 2-1. ���� ��, �� ���� �� ������ ���� 2-2. ���� ���ϸ�, �׳� pass
 	 * 
-	 * if-2) ������ ��� ���� 1. ���� ���� ���� ���� 2-1. ���� ��, �� ���� �� ���� �߰�s 2-2. ���� ���ϸ�, �׳� pass
+	 * if-2) ������ ���? ���� 1. ���� ���� ���� ���� 2-1. ���� ��, �� ���� �� ���� �߰�s 2-2. ���� ���ϸ�, �׳� pass
 	 * 
-	 * if-3) ������ ��� Ÿ�� 1. �� ���� 2-1. �� ���� ��, ���� ���� �� �Ļ� 3. (�ð� ������) �μ� ��� �� ����
+	 * if-3) ������ ���? Ÿ�� 1. �� ���� 2-1. �� ���� ��, ���� ���� �� �Ļ� 3. (�ð� ������) �μ� ���? �� ����
 	 * 
 	 */
 
@@ -217,17 +220,14 @@ public class Game extends JPanel {
 		movePlayer.setInitialDelay(2000);
 		movePlayer.start();
 
-		// try {
-		// synchronized (this) {
-		// while (!moved) {
-		// this.wait();
-		// }
-		// moved = false;
-		// }
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
+		try {
+			// wait until player stops moving
+			// offset 200 for timing err
+			Thread.sleep(2000 + dice*400 + 200);
+		}
+		catch(Exception e) {
 
+		}
 		/* TODO: wait while moving is complete */
 
 		int owner = cityManager.owner(player.position);
@@ -280,7 +280,7 @@ public class Game extends JPanel {
 			playerList.get(owner).earnMoney(cityManager.getToll(player.position));
 
 			// ���� �ǹ� �ŷ��� ���� (��ư ����)
-			// int decision = JOptionPane.showConfirmDialog(this, "�ǹ��� �μ��Ͻðھ��?");
+			// int decision = JOptionPane.showConfirmDialog(this, "�ǹ��� �μ��Ͻðھ��??");
 			// if (decision == 1) {
 			// }
 		}
