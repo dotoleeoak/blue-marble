@@ -4,22 +4,22 @@ import java.awt.Point;
 import javax.swing.JOptionPane;
 
 public class Player extends Thread{
-	int ID;
-	String name;
-	int money;
-	int position;
-	int numThesis;
-	int numChance;
-	int live = 1;
-	PointManager coordinateManager;
-	Game game;
-	Point nowPoint;
+	private int ID;
+	private String name;
+	private int money;
+	private int position;
+	private int numThesis;
+	private int numChance;
+	private int live = 1;
+	private PointManager coordinateManager;
+	private Game game;
+	private Point nowPoint;
 	// ArrayList<String> chance;
 
 	Player(int _id, String _name, Game _game) {
 		ID = _id;
 		name = _name;
-		money = 3000;
+		money = 1000;
 		position = 0;
 		numThesis = 0;
 		numChance = 0;
@@ -27,13 +27,39 @@ public class Player extends Thread{
 		// chance = new ArrayList<String>();
 	}
 
+	public void increPosition(){
+		position++;
+		position %= 16;
+	}
+
+	public int getID(){
+		return ID;
+	}
+
 	public void lab() {
 		numThesis += 3;
 	}
 
-	public void getChance() {
+	public boolean isInLab() {
+		return numThesis > 0;
+	}
+
+	public void increChance() {
 		numChance += 1;
 	}
+
+	public int getChance() {
+		return numChance;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
 	public void inStart(){
 		money += 200;
 	}
@@ -42,12 +68,12 @@ public class Player extends Thread{
 		money += diff;
 	}
 
-	public boolean payToll(int _toll) {
-		if (money < _toll) {
-			return false;
-		}
+	public void payToll(int _toll) {
+		// if (money < _toll) {
+		// 	return false;
+		// }
 		money -= _toll;
-		return true;
+		// return money < 0;
 	}
 
 	public boolean buyCity(int _price) {
@@ -66,7 +92,7 @@ public class Player extends Thread{
 		return true;
 	}
 
-	/* public int nextPosition(int dice) {
+	public int nextPosition(int dice) {
 		if (numThesis == 0 || dice == 6) {
 			position = (position + dice) % 16;
 		}
@@ -80,15 +106,4 @@ public class Player extends Thread{
 	public void popChance() {
 		numChance--;
 	}
-
-	
-
-	
-
-	
-
-	// ?���? ?��?�� �? 걸렸?�� ?��
-	
- */
-
 }

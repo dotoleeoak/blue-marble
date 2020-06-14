@@ -12,10 +12,9 @@ public class Game extends Thread {
 	private int playerIdx;
 	private int dice;
 	private boolean moved;
-	public int gamestep;
 
 	public CityManager cityManager = new CityManager();
-	public PointManager coordinateManager = new PointManager();
+	public PointManager pointManager = new PointManager();
 	public GameGUI gameGUI;
 	ArrayList<Player> playerList;
 
@@ -30,10 +29,10 @@ public class Game extends Thread {
 		playerList.add(new Player(0, "First", this));
 		playerList.add(new Player(1, "Second", this));
 		if (numPlayer >= 3) {
-			playerList.add(new Player(3, "Fourth", this));
+			playerList.add(new Player(2, "Third", this));
 		}
 		if (numPlayer == 4) {
-			playerList.add(new Player(2, "Third", this));
+			playerList.add(new Player(3, "Fourth", this));
 		}
 		gameGUI = new GameGUI(this);
 		gameGUI.setVisible(true);
@@ -41,18 +40,16 @@ public class Game extends Thread {
 
 		moved = false;
 		controller = c;
-		gamestep = 0;
 	}
 
 	@Override
 	public void run() {
 		try {
-			do {
+			while(true) {
 				Player nowPlayer = playerList.get(playerIdx);
 				dice = -1;
-				while( dice == -1 ){
-					Thread.sleep(500);
-				} //invoke
+				while( dice == -1 ) { Thread.sleep(100); } 
+				//invoke
 				if(dice != -1){
 					gameGUI.offRollingDice();
 					gameGUI.onDiceNumber(dice);
@@ -61,128 +58,108 @@ public class Game extends Thread {
 					move(nowPlayer);
 				}
 				gameGUI.offDiceNumber(dice);
+				reachGround(nowPlayer);
 
-				if (reachGround(nowPlayer) == false){
-					gamestep = -1;
-				}
+				if(nowPlayer.getMoney() < 0)
+					break;
 				
 				playerIdx++;
 				playerIdx %= numPlayer;
-			}while(gamestep != -1);
+			}
 			// @ add game exit message
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
+		JOptionPane.showMessageDialog(null, playerIdx + "th Player lost all your money and went bankrupt.");
+		System.exit(0);
 
 	}
 
-	public boolean reachGround(Player _nowPlayer){
-		if(_nowPlayer.position == 8){
-			inLab(_nowPlayer);
-			return true;
-		}else if(_nowPlayer.position == 4 || _nowPlayer.position == 12){
-			inChance(_nowPlayer);
-			return true;
-		}else if(_nowPlayer.position == 0){
-			inStart(_nowPlayer);
-			return true;
-		}else{
-			return inCity(_nowPlayer, cityManager);
+	public void turn() {
+
+	}
+
+	public void reachGround(Player _nowPlayer){
+		switch(_nowPlayer.getPosition()) {
+			case 8:
+				_nowPlayer.lab(); break;
+			case 4: case 12:
+				JOptionPane.showMessageDialog(null, "Chance acquired!");
+				_nowPlayer.increChance(); break; 
+			case 0:
+				_nowPlayer.inStart(); break;
+			default:
+				inCity(_nowPlayer);
 		}
 	}
 
-	public void inLab(Player _nowPlayer){
-		_nowPlayer.lab();
-	}
-
-	public void inChance(Player _nowPlayer){
-		_nowPlayer.getChance();
-	}
-	public void inStart(Player _nowPlayer){
-		_nowPlayer.inStart();
-	}
-	public boolean inCity(Player _nowPlayer, CityManager _cityManager){
+	public void inCity(Player player){
+		int position = player.getPosition();
+		int owner = cityManager.owner(position);
+		int ID = player.getID();
+		String cityName = cityManager.getName(position);
 		
-		String cityName = _cityManager.getName(_nowPlayer.position);
-		if(_cityManager.owner(_nowPlayer.position) == -1){
+		if(owner == -1){
 			//@ button for buy or not?
 			int decision = JOptionPane.showConfirmDialog(new JPanel(), "Will you buy "+cityName+"?");
 			if( decision == 0){
-				if( _nowPlayer.buyCity(_cityManager.getPrice(_nowPlayer.position)) ){
-					cityManager.buyCity(_nowPlayer.position, _nowPlayer.ID);
+				if( player.buyCity(cityManager.getPrice(position)) ){
+					cityManager.buyCity(position, ID);
 				}
 			}
-		}else{
-			//@ check chance
-			if( _nowPlayer.numChance > 0 ){
-				int decision = JOptionPane.showConfirmDialog(new JPanel(), "Will you use chane?");
-				_nowPlayer.numChance--;
-				if( decision == 0){
-					int randomChance = new Random().nextInt(2);
-					if(randomChance == 0){ // 50%
-						JOptionPane.showMessageDialog(null, "you need to pay just 50% toll. Player " + _nowPlayer.ID + " lose " + _cityManager.getToll(_nowPlayer.position)/2 + " won");
-						//owner earn 
-						playerList.get(_cityManager.owner(_nowPlayer.position)).earnMoney( _cityManager.getToll(_nowPlayer.position)/2 );
-						//mover paid
-						return _nowPlayer.payToll(_cityManager.getToll(_nowPlayer.position)/2);
-					}else{	//200%
-						JOptionPane.showMessageDialog(null, "you need to pay just 200% toll. Player " + _nowPlayer.ID + " lose " + _cityManager.getToll(_nowPlayer.position)*2 + " won");
-						//owner earn 
-						playerList.get(_cityManager.owner(_nowPlayer.position)).earnMoney( _cityManager.getToll(_nowPlayer.position)*2 );
-						//mover paid
-						return _nowPlayer.payToll(_cityManager.getToll(_nowPlayer.position)*2);
-					}
-				}
-			}
-			//default
-			JOptionPane.showMessageDialog(null, "Player " + _nowPlayer.ID + " lose " + _cityManager.getToll(_nowPlayer.position) + " won");
-			//owner earn 
-			playerList.get(_cityManager.owner(_nowPlayer.position)).earnMoney( _cityManager.getToll(_nowPlayer.position) );
-			//mover paid
-			return _nowPlayer.payToll(_cityManager.getToll(_nowPlayer.position));
-		}
-
-		if( _cityManager.owner(_nowPlayer.position) == _nowPlayer.ID ){
+		} else if(owner == ID) {
 			//@ button for buy or not?
 			int decision = JOptionPane.showConfirmDialog(new JPanel(), "Will you build a building on "+cityName+"?");
 			if(decision == 0){
-				if (  _nowPlayer.buyBuilding(_cityManager.getPriceBuilding(_nowPlayer.position)) ){
-					cityManager.buyBuilding(_nowPlayer.position, _nowPlayer.ID);
+				if (  player.buyBuilding(cityManager.getPriceBuilding(position)) ){
+					cityManager.buyBuilding(position, ID);
 				}	
 			}
+		} else {
+			//@ check chance
+			int toll = -1;
+			if( player.hasChance() ){
+				int decision = JOptionPane.showConfirmDialog(new JPanel(), "Will you use chane?");
+				player.popChance();
+				if( decision == 0){
+					int randomChance = new Random().nextInt(2);
+					if (randomChance == 0) { // 50%
+						toll = cityManager.getToll(position) / 2;
+						JOptionPane.showMessageDialog(null, "you need to pay just 50% toll. Player " + ID + " lose " + toll + " won");
+					} else if (randomChance == 1) {	//200%
+						toll = cityManager.getToll(position) * 2;
+						JOptionPane.showMessageDialog(null, "you need to pay 200% toll. Player " + ID + " lose " + toll + " won");
+					}
+				}
+			}
+			if (toll == -1) {
+				toll = cityManager.getToll(position);
+				JOptionPane.showMessageDialog(null, "Player " + ID + " lose " + toll + " won");
+			}
+			playerList.get(owner).earnMoney(toll);
+			player.payToll(toll);
 		}
-		return true;
 	}
 
-	public void move(Player _nowPlayer){
-		Point prePoint = coordinateManager.getPlayerPoint(_nowPlayer.ID, _nowPlayer.position);
-		_nowPlayer.position++;
-		_nowPlayer.position %= 16;
-		Point nextPoint = coordinateManager.getPlayerPoint(_nowPlayer.ID, _nowPlayer.position);
+	public void move(Player player){
+		int ID = player.getID();
+		Point prePoint = pointManager.getPlayerPoint(ID, player.getPosition());
+		player.increPosition();
+		Point nextPoint = pointManager.getPlayerPoint(ID, player.getPosition());
 		for(int i = 0; i < 50; i++){
 			Point interPoint = new Point((prePoint.x *(50-i) + nextPoint.x * i)/50, (prePoint.y *(50-i) + nextPoint.y * i)/50 );
 			try {
-				gameGUI.playerMove(_nowPlayer, interPoint);
+				gameGUI.playerMove(player, interPoint);
 				Thread.sleep(10);
 			}catch(InterruptedException ex) {
 				ex.printStackTrace();
 			}
 		}
-		gameGUI.playerMove(_nowPlayer, nextPoint);
+		gameGUI.playerMove(player, nextPoint);
 	}
 
 	public void rollDice() {
 		dice = new Random().nextInt(6) + 1;
-	}
-
-	public void rollOffDice(){
-		try{
-			gameGUI.onDiceNumber(dice);
-			Thread.sleep(1000);
-			gameGUI.offDiceNumber(dice);
-		}catch(InterruptedException ex) {
-			ex.printStackTrace();
-		}
 	}
 
 	public void close() {

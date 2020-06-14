@@ -53,7 +53,7 @@ class CityManager {
 	public int owner(int idx) {
 		return arrayCity.get(idx).ownerID;
 	}
-	public boolean builed(int _position, int _buildingSort){
+	public boolean builded(int _position, int _buildingSort){
 		return arrayCity.get(_position).buildedBuilnding[_buildingSort];
 	}
 

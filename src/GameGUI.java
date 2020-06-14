@@ -5,19 +5,22 @@ import java.util.ArrayList;
 
 public class GameGUI extends JPanel {
     private Image screenImage;
-	private Image background = new ImageIcon(Main.class.getResource("images/Board/board.png")).getImage();
-	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("images/menuBar.png")));
-
-	private ImageIcon buildingIcon = new ImageIcon(Main.class.getResource("images/Board/building.png"));
-	private Image buildingImages = new ImageIcon(Main.class.getResource("images/Board/building.png")).getImage();
-	private ImageIcon[] imagePlayer;
+	private Image background  = new ImageIcon(Main.class.getResource("images/Board/board.png")).getImage();
+	private Image buildImage  = new ImageIcon(Main.class.getResource("images/Board/building.png")).getImage();
+	private Image flag0Image  = new ImageIcon(Main.class.getResource("images/Board/flag0.png")).getImage();
+	private Image flag1Image  = new ImageIcon(Main.class.getResource("images/Board/flag1.png")).getImage();
+	private Image flag2Image  = new ImageIcon(Main.class.getResource("images/Board/flag2.png")).getImage();
+	private Image flag3Image  = new ImageIcon(Main.class.getResource("images/Board/flag3.png")).getImage();
 	private Image rollingDice = new ImageIcon(Main.class.getResource("images/rollingDice_3.gif")).getImage();
+	private ImageIcon[] imagePlayer;
 	
-	private ImageIcon backToMenuIcon = new ImageIcon(Main.class.getResource("images/Board/backToMenu.png"));
+	private ImageIcon backToMenuIcon        = new ImageIcon(Main.class.getResource("images/Board/backToMenu.png"));
 	private ImageIcon backToMenuEnteredIcon = new ImageIcon(Main.class.getResource("images/Board/backToMenuEntered.png"));
-
+	
+	private JButton closeButton;
 	private JButton rollDiceButton;
 	private JButton backToMenuButton = new JButton(backToMenuIcon);
+	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("images/menuBar.png")));
 
 	//private JLabel rollingDice;
 	public JLabel[] playerLabel;
@@ -28,7 +31,7 @@ public class GameGUI extends JPanel {
 	Game game;
 	
 	CityManager cityManager;
-	PointManager coordinateManager;
+	PointManager pointManager;
 	int numPlayer;
 	ArrayList<Player> playerList;
 	private int mouseX, mouseY;
@@ -36,7 +39,7 @@ public class GameGUI extends JPanel {
     GameGUI(Game _game){
 		game = _game;
 		cityManager = game.cityManager;
-		coordinateManager = game.coordinateManager;
+		pointManager = game.pointManager;
 		numPlayer = game.numPlayer;
 		playerList = game.playerList;
 		setLayout(null);
@@ -58,7 +61,7 @@ public class GameGUI extends JPanel {
 		/********* SHOW PLAYER ICONS *********/
 		playerLabel = new JLabel[4];
 		for (int i = 0; i < 4; i++) {
-			Point point = coordinateManager.getPlayerPoint(i, 0);
+			Point point = pointManager.getPlayerPoint(i, 0);
 			playerLabel[i] = new JLabel(imagePlayer[i]);
 			playerLabel[i].setLocation(point.x, point.y);
 			playerLabel[i].setSize(30, 30);
@@ -68,17 +71,6 @@ public class GameGUI extends JPanel {
 		for (int i = 0; i < numPlayer; i++) {
 			playerLabel[i].setVisible(true);
 		} 
-
-		/* buildingImages = new Image[16][2];
-		for (int i = 0; i < 16; i++) {
-			for(int j = 0; j < 2; j++){
-				Point point = coordinateManager.getBuildingPoint(i,j);
-				buildingImages[i][j] = buildingIcon.getImage();
-				buildingImages[i][j].setSize(29,44);
-				buildingImages[i][j].setLocation(point.x, point.y);
-				buildingImages[i][j].setVisible(false);
-			}
-		add(buildingImages[i][j]); */
 
 		rollDiceButton = new JButton();
 		rollDiceButton.setBounds(540, 240, 200, 176);
@@ -91,19 +83,20 @@ public class GameGUI extends JPanel {
 		rollDiceButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				game.rollDice();
-				onRollingDice();
+				new Thread(new Runnable() {
+					public void run() {
+						onRollingDice();
+						try {
+							Thread.sleep(600);
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+						game.rollDice();
+					}
+				}).start(); 
 			}
 		});
 		add(rollDiceButton);
-
-/* 		backToMenuButton.setBounds(20, 190, 170, 100);
-		backToMenuButton.setBorderPainted(false);
-		backToMenuButton.setContentAreaFilled(false);
-		backToMenuButton.setFocusPainted(false);
-		backToMenuButton.setVisible(true);
-
-		add(backToMenuButton); */
 
 		menuBar.setBounds(0, 0, 1280, 30);
 		menuBar.addMouseListener(new MouseAdapter() {
@@ -122,6 +115,31 @@ public class GameGUI extends JPanel {
 			}
 		});
 		add(menuBar);
+		setComponentZOrder(menuBar, 1);
+
+		closeButton = new JButton();
+		closeButton.setBounds(1245, 0, 30, 30);
+		closeButton.setBorderPainted(false);
+		closeButton.setContentAreaFilled(false);
+		closeButton.setFocusPainted(false);
+		closeButton.setIcon(new ImageIcon(Main.class.getResource("images/MainMenu/closeButton.png")));
+		closeButton.setRolloverIcon(new ImageIcon(Main.class.getResource("images/MainMenu/closeButtonEntered.png")));
+		closeButton.setPressedIcon(new ImageIcon(Main.class.getResource("images/MainMenu/closeButtonPressed.png")));
+		closeButton.addMouseListener(new soundingMouseAdapter(closeButton));
+		add(closeButton);
+		setComponentZOrder(closeButton, 0);
+
+		closeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Thread.sleep(300);
+				} catch(InterruptedException ex) {
+					ex.printStackTrace();
+				}
+				System.exit(0);
+			}
+		});
 	}
 
 	public void onRollingDice(){
@@ -153,9 +171,20 @@ public class GameGUI extends JPanel {
 		g.drawImage(background, 0, 0, null);
 		for(int i = 0; i < 16; i++){
 			for(int j = 0; j < 2; j++){
-				if( cityManager.builed(i,j)  ){
-					g.drawImage(buildingImages, coordinateManager.getBuildingPoint(i,j).x, coordinateManager.getBuildingPoint(i,j).y,null);
+				if(cityManager.builded(i,j)){
+					g.drawImage(buildImage, pointManager.getBuildingPoint(i,j).x, pointManager.getBuildingPoint(i,j).y,null);
 				}
+			}
+		}
+		for(int i = 0; i < 16; i++){
+			if(cityManager.owner(i) == 0){
+				g.drawImage(flag0Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y,null);
+			}else if(cityManager.owner(i) == 1){
+				g.drawImage(flag1Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y,null);
+			}else if(cityManager.owner(i) == 2){
+				g.drawImage(flag2Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y,null);
+			}else if(cityManager.owner(i) == 3){
+				g.drawImage(flag3Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y,null);
 			}
 		}
 		if(rollDice) g.drawImage(rollingDice, 540, 220, null);
@@ -169,13 +198,13 @@ public class GameGUI extends JPanel {
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Arial", Font.BOLD, 30));
 		for (int i = 0; i < numPlayer; i++) {
-			g.drawString("Player" + i + "'s property: " + playerList.get(i).money, 20 + (Main.SCREEN_WIDTH-400) * (i%2), 40 + (Main.SCREEN_HEIGHT-100) * (i/2));
-			g.drawString("Chance: " + playerList.get(i).numChance, 20 + (Main.SCREEN_WIDTH-400) * (i%2), 70 + (Main.SCREEN_HEIGHT-100) * (i/2));
+			g.drawString("Player" + i + "'s property: " + playerList.get(i).getMoney(), 20 + (Main.SCREEN_WIDTH-400) * (i%2), 60 + (Main.SCREEN_HEIGHT-120) * (i/2));
+			g.drawString("Chance: " + playerList.get(i).getChance(), 20 + (Main.SCREEN_WIDTH-400) * (i%2), 90 + (Main.SCREEN_HEIGHT-120) * (i/2));
 		}
 	}
 
 	public void playerMove(Player _nowPlayer, Point _interPoint){
-		JLabel label = playerLabel[_nowPlayer.ID];
+		JLabel label = playerLabel[_nowPlayer.getID()];
 		label.setLocation(_interPoint);
 
 	}
