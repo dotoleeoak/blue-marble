@@ -25,22 +25,22 @@ class CityManager {
 
 	CityManager() {
 		arrayCity = new ArrayList<City>();
-		arrayCity.add(new City(0));    // ½ÃÀÛ
-		arrayCity.add(new City(100));  // ¼ö¼º°ü
-		arrayCity.add(new City(120));  // º¥Á¨°í¸®°ü
-		arrayCity.add(new City(150));  // º¹ÁöÈ¸°ü
-		arrayCity.add(new City(0));    // Âù½º
-		arrayCity.add(new City(200));  // ÇÐ»ýÈ¸°ü
-		arrayCity.add(new City(250));  // Á¦1°øÇÐ°ü
-		arrayCity.add(new City(350));  // Á¦2°øÇÐ°ü
+		arrayCity.add(new City(0));    // ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(100));  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(120));  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(150));  // ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½
+		arrayCity.add(new City(0));    // ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(200));  // ï¿½Ð»ï¿½È¸ï¿½ï¿½
+		arrayCity.add(new City(250));  // ï¿½ï¿½1ï¿½ï¿½ï¿½Ð°ï¿½
+		arrayCity.add(new City(350));  // ï¿½ï¿½2ï¿½ï¿½ï¿½Ð°ï¿½
 		arrayCity.add(new City(0));    // Lab
-		arrayCity.add(new City(400));  // Á¾ÇÕ¿¬±¸µ¿
-		arrayCity.add(new City(500));  // »êÇÐÇù·Â¼¾ÅÍ
-		arrayCity.add(new City(600));  // ¹ÝµµÃ¼°ü
-		arrayCity.add(new City(0));    // Âù½º
-		arrayCity.add(new City(800));  // ¾àÇÐ°ü
-		arrayCity.add(new City(1000)); // ÀÇÇÐ°ü
-		arrayCity.add(new City(1500)); // µðµµ
+		arrayCity.add(new City(400));  // ï¿½ï¿½ï¿½Õ¿ï¿½ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(500));  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
+		arrayCity.add(new City(600));  // ï¿½Ýµï¿½Ã¼ï¿½ï¿½
+		arrayCity.add(new City(0));    // ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(800));  // ï¿½ï¿½ï¿½Ð°ï¿½
+		arrayCity.add(new City(1000)); // ï¿½ï¿½ï¿½Ð°ï¿½
+		arrayCity.add(new City(1500)); // ï¿½ï¿½
 	}
 
 	public int owner(int idx) {

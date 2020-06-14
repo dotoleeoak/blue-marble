@@ -53,21 +53,63 @@ public class Game extends Thread {
 				while( dice == -1 ){
 					Thread.sleep(1000);
 				} //invoke
-				System.out.println("!");
 				gameGUI.falseReadyRolling();
 				for(int i = 0; i <dice; i++){
 					move(nowPlayer);
 				}
+
+				if (reachGround(nowPlayer) == false){
+					gamestep = -1;
+				}
 				
-
-
 				playerIdx++;
 				playerIdx %= 4;
 			}while(gamestep != -1);
+			// @ add game exit message
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
 
+	}
+
+	public boolean reachGround(Player _nowPlayer){
+		if(_nowPlayer.position == 8){
+			inLab(_nowPlayer);
+			return true;
+		}else if(_nowPlayer.position == 4 || _nowPlayer.position == 12){
+			inChance(_nowPlayer);
+			return true;
+		}else if(_nowPlayer.position == 0){
+			inStart(_nowPlayer);
+			return true;
+		}else{
+			return inCity(_nowPlayer, cityManager);
+		}
+	}
+
+	public void inLab(Player _nowPlayer){
+		_nowPlayer.lab();
+	}
+
+	public void inChance(Player _nowPlayer){
+		_nowPlayer.winChance();
+	}
+	public void inStart(Player _nowPlayer){
+		_nowPlayer.inStart();
+	}
+	public boolean inCity(Player _nowPlayer, CityManager _cityManager){
+		//@ check chance
+		
+		if(_cityManager.owner(_nowPlayer.position) == -1){
+			return true;
+		}else if( _cityManager.owner(_nowPlayer.position) == _nowPlayer.ID ){
+			return true;
+		}else{
+			//owner earn 
+			playerList.get(_cityManager.owner(_nowPlayer.position)).earnMoney( _cityManager.getToll(_nowPlayer.position) );
+			//mover paid
+			return _nowPlayer.payToll(_cityManager.getToll(_nowPlayer.position));
+		}
 	}
 
 	public void move(Player _nowPlayer){

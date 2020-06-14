@@ -17,20 +17,12 @@ public class Player extends Thread{
 	Player(int _id, String _name, Game _game) {
 		ID = _id;
 		name = _name;
-		money = 1000;
+		money = 2000;
 		position = 0;
 		numThesis = 0;
 		numChance = 0;
 		game = _game;
 		// chance = new ArrayList<String>();
-	}
-
-
-	/* public int nextPosition(int dice) {
-		if (numThesis == 0 || dice == 6) {
-			position = (position + dice) % 16;
-		}
-		return position;
 	}
 
 	public void lab() {
@@ -40,7 +32,29 @@ public class Player extends Thread{
 	public void winChance() {
 		numChance += 1;
 	}
+	public void inStart(){
+		money += 200;
+	}
 
+	public void earnMoney(int diff) {
+		money += diff;
+	}
+
+	public boolean payToll(int _toll) {
+		if (money < _toll) {
+			return false;
+		}
+		money -= _toll;
+		return true;
+	}
+
+	/* public int nextPosition(int dice) {
+		if (numThesis == 0 || dice == 6) {
+			position = (position + dice) % 16;
+		}
+		return position;
+	}
+	
 	public boolean hasChance() {
 		return numChance > 0;
 	}
@@ -49,9 +63,7 @@ public class Player extends Thread{
 		numChance--;
 	}
 
-	public void earnMoney(int diff) {
-		money += diff;
-	}
+	
 
 	public boolean buyCity(int idxCity) {
 		int price = Game.cityManager.getPrice(idxCity);
@@ -74,14 +86,7 @@ public class Player extends Thread{
 	}
 
 	// ?���? ?��?�� �? 걸렸?�� ?��
-	public boolean payToll(int idxCity) {
-		int toll = Game.cityManager.getToll(idxCity);
-		if (money < toll) {
-			return false;
-		}
-		money -= toll;
-		return true;
-	}
+	
  */
 
 }
