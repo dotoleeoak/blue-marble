@@ -8,15 +8,15 @@ import java.util.ArrayList;
 // }
 
 class CityManager {
-	
+
 	class City {
 		int ownerID;
 		int price;
 		int toll;
 		String name;
-	
+
 		City(int price, String name) {
-			this.ownerID = -1;  // -1 means nobody 
+			this.ownerID = -1; // -1 means nobody
 			this.price = price;
 			this.toll = 0;
 			this.name = name;
@@ -27,22 +27,22 @@ class CityManager {
 
 	CityManager() {
 		arrayCity = new ArrayList<City>();
-		arrayCity.add(new City(0, "ì‹œì‘"));    // ï¿½ï¿½ï¿½ï¿½
-		arrayCity.add(new City(100, "ìˆ˜ì„±ê´€"));  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-		arrayCity.add(new City(120, "ë²¤ì  ê³ ë¦¬ê´€"));  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-		arrayCity.add(new City(150, "ë³µì§€íšŒê´€"));  // ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½
-		arrayCity.add(new City(0, "ì°¬ìŠ¤"));    // ï¿½ï¿½ï¿½ï¿½
-		arrayCity.add(new City(200, "í•™ìƒíšŒê´€"));  // ï¿½Ğ»ï¿½È¸ï¿½ï¿½
-		arrayCity.add(new City(250, "ì œ1ê³µí•™ê´€"));  // ï¿½ï¿½1ï¿½ï¿½ï¿½Ğ°ï¿½
-		arrayCity.add(new City(350, "ì œ2ê³µí•™ê´€"));  // ï¿½ï¿½2ï¿½ï¿½ï¿½Ğ°ï¿½
-		arrayCity.add(new City(0, "ë©ì‹¤"));    // Lab
-		arrayCity.add(new City(400, "ì¢…í•©ì—°êµ¬ë™"));  // ï¿½ï¿½ï¿½Õ¿ï¿½ï¿½ï¿½ï¿½ï¿½
-		arrayCity.add(new City(500, "ì‚°í•™í˜‘ë ¥ì„¼í„°"));  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
-		arrayCity.add(new City(600, "ë°˜ë„ì²´ê´€"));  // ï¿½İµï¿½Ã¼ï¿½ï¿½
-		arrayCity.add(new City(0, "ì°¬ìŠ¤"));    // ï¿½ï¿½ï¿½ï¿½
-		arrayCity.add(new City(800, "ì•½í•™ê´€"));  // ï¿½ï¿½ï¿½Ğ°ï¿½
-		arrayCity.add(new City(1000, "ì˜í•™ê´€")); // ï¿½ï¿½ï¿½Ğ°ï¿½
-		arrayCity.add(new City(1500, "ë””ë„")); // ï¿½ï¿½
+		arrayCity.add(new City(0, "½ÃÀÛ")); // ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(100, "¼ö¼º°ü")); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(120, "º¥Á¨°í¸®°ü")); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(150, "º¹ÁöÈ¸°ü")); // ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½
+		arrayCity.add(new City(0, "Âù½º")); // ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(200, "ÇĞ»ıÈ¸°ü")); // ï¿½Ğ»ï¿½È¸ï¿½ï¿½
+		arrayCity.add(new City(250, "Á¦1°øÇĞ°ü")); // ï¿½ï¿½1ï¿½ï¿½ï¿½Ğ°ï¿½
+		arrayCity.add(new City(350, "Á¦2°øÇĞ°ü")); // ï¿½ï¿½2ï¿½ï¿½ï¿½Ğ°ï¿½
+		arrayCity.add(new City(0, "Lab")); // Lab
+		arrayCity.add(new City(400, "Á¾ÇÕ¿¬±¸µ¿")); // ï¿½ï¿½ï¿½Õ¿ï¿½ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(500, "»êÇĞÇù·Â¼¾ÅÍ")); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
+		arrayCity.add(new City(600, "¹İµµÃ¼°ü")); // ï¿½İµï¿½Ã¼ï¿½ï¿½
+		arrayCity.add(new City(0, "Âù½º")); // ï¿½ï¿½ï¿½ï¿½
+		arrayCity.add(new City(800, "¾àÇĞ°ü")); // ï¿½ï¿½ï¿½Ğ°ï¿½
+		arrayCity.add(new City(1000, "ÀÇÇĞ°ü")); // ï¿½ï¿½ï¿½Ğ°ï¿½
+		arrayCity.add(new City(1500, "µğµµ")); // ï¿½ï¿½
 	}
 
 	public int owner(int idx) {
@@ -77,4 +77,3 @@ class CityManager {
 		city.toll += city.price / 2;
 	}
 }
-
