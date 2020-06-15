@@ -14,15 +14,15 @@ class CityManager {
 		int price;
 		int toll;
 		String cityName;
-		boolean[] buildedBuilnding = new boolean[2];
+		boolean[] buildingBuilt = new boolean[2];
 
 		City(int price, String _cityName) {
 			this.ownerID = -1; // -1 means nobody
 			this.price = price;
 			this.toll = 0;
 			cityName = _cityName;
-			buildedBuilnding[0] = false;
-			buildedBuilnding[1] = false;
+			buildingBuilt[0] = false;
+			buildingBuilt[1] = false;
 		}
 	}
 
@@ -57,7 +57,7 @@ class CityManager {
 	}
 
 	public boolean builded(int _position, int _buildingSort) {
-		return arrayCity.get(_position).buildedBuilnding[_buildingSort];
+		return arrayCity.get(_position).buildingBuilt[_buildingSort];
 	}
 
 	public int getPrice(int idx) {
@@ -75,20 +75,23 @@ class CityManager {
 	public void buyCity(int idx, int ID) {
 		City city = arrayCity.get(idx);
 		city.ownerID = ID;
-		city.toll += city.price;
+		city.toll += city.price * 1.5;
 	}
 
-	public void buyBuilding(int idx, int ID) {
+	public void buyBuilding(int idx) {
 		City city = arrayCity.get(idx);
 		// one time, only one buy
-		if (city.buildedBuilnding[0] == false) {
-			city.toll += city.price / 2;
-			city.buildedBuilnding[0] = true;
+		if (city.buildingBuilt[0] == false) {
+			city.toll += city.price * 1.5;
+			city.buildingBuilt[0] = true;
 
-		} else if (city.buildedBuilnding[1] == false) {
-			city.toll += city.price / 2;
-			city.buildedBuilnding[1] = true;
+		} else if (city.buildingBuilt[1] == false) {
+			city.toll += city.price * 1.5;
+			city.buildingBuilt[1] = true;
 		}
-		// city.ownerID = ID;
+	}
+
+	public boolean isBuildlingFull(int idx) {
+		return arrayCity.get(idx).buildingBuilt[1];
 	}
 }

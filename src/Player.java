@@ -1,9 +1,10 @@
+
 // import java.util.ArrayList;
 import java.awt.Point;
 
 import javax.swing.JOptionPane;
 
-public class Player extends Thread{
+public class Player extends Thread {
 	private int ID;
 	private String name;
 	private int money;
@@ -19,7 +20,7 @@ public class Player extends Thread{
 	Player(int _id, String _name, Game _game) {
 		ID = _id;
 		name = _name;
-		money = 1000;
+		money = 1500;
 		position = 0;
 		numThesis = 0;
 		numChance = 0;
@@ -27,12 +28,16 @@ public class Player extends Thread{
 		// chance = new ArrayList<String>();
 	}
 
-	public void increPosition(){
+	public void increPosition() {
 		position++;
-		position %= 16;
+		if (position == 16) {
+			position = 0;
+			money += 750;
+		}
+		// position %= 16;
 	}
 
-	public int getID(){
+	public int getID() {
 		return ID;
 	}
 
@@ -44,12 +49,12 @@ public class Player extends Thread{
 		return numThesis > 0;
 	}
 
-	public int getThesis() {
-		return 4 - numThesis;
+	public int getRemainingThesis() {
+		return numThesis;
 	}
 
-	public void decreLab(){
-		numThesis--;	
+	public void writeThesis() {
+		numThesis--;
 	}
 
 	public void increChance() {
@@ -68,9 +73,9 @@ public class Player extends Thread{
 		return position;
 	}
 
-	public void inStart(){
-		money += 200;
-	}
+	// public void inStart() {
+	// money += 200;
+	// }
 
 	public void earnMoney(int diff) {
 		money += diff;
@@ -88,7 +93,7 @@ public class Player extends Thread{
 		return true;
 	}
 
-	public boolean buyBuilding(int _price) {
+	public boolean canBuyBuilding(int _price) {
 		if (money < _price) {
 			return false;
 		}
@@ -102,7 +107,7 @@ public class Player extends Thread{
 		}
 		return position;
 	}
-	
+
 	public boolean hasChance() {
 		return numChance > 0;
 	}

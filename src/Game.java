@@ -39,25 +39,24 @@ public class Game extends Thread {
 
     @Override
     public void run() {
+        Player nowPlayer = playerList.get(playerIdx);
         try {
             while (true) {
-				Player nowPlayer = playerList.get(playerIdx);
-				if(nowPlayer.isInLab()){
-					JOptionPane.showMessageDialog(null, playerIdx + "th Player is writing thesis. " +  nowPlayer.getThesis() + " page is remaing.");
-                    nowPlayer.decreLab();
-					playerIdx++;
-					playerIdx %= numPlayer;
-					continue;
-				}
+                nowPlayer = playerList.get(playerIdx);
+                if (nowPlayer.isInLab()) {
+                    JOptionPane.showMessageDialog(null, nowPlayer.getID() + " Player is writing thesis.\n"
+                            + nowPlayer.getRemainingThesis() + " page remaing.");
+                    nowPlayer.writeThesis();
+                    playerIdx++;
+                    playerIdx %= numPlayer;
+                    continue;
+                }
                 dice = -1;
                 while (dice == -1) {
                     Thread.sleep(100);
                 }
-                // invoke
-                if (dice != -1) {
-                    gameGUI.offRollingDice();
-                    gameGUI.onDiceNumber(dice);
-                }
+                gameGUI.offRollingDice();
+                gameGUI.onDiceNumber(dice);
                 for (int i = 0; i < dice; i++) {
                     move(nowPlayer);
                 }
@@ -74,7 +73,7 @@ public class Game extends Thread {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        JOptionPane.showMessageDialog(null, playerIdx + "th Player lost all your money and went bankrupt.");
+        JOptionPane.showMessageDialog(null, nowPlayer.getID() + " Player lost all money!");
         System.exit(0);
 
     }
@@ -82,6 +81,8 @@ public class Game extends Thread {
     public void reachGround(Player player) {
         switch (player.getPosition()) {
             case 8:
+                JOptionPane.showMessageDialog(null,
+                        "Player is locked in by professor!\nHas to write 3 thesis to escape");
                 player.lab();
                 break;
             case 4:
@@ -90,7 +91,7 @@ public class Game extends Thread {
                 player.increChance();
                 break;
             case 0:
-                player.inStart();
+                // player.inStart();
                 break;
             default:
                 inCity(player);
@@ -104,25 +105,38 @@ public class Game extends Thread {
         String cityName = cityManager.getName(position);
 
         if (owner == -1) {
-			int decision = JOptionPane.showConfirmDialog(new JPanel(), 
-					"Will you buy " + cityName + "?");
+            if (player.getMoney() < cityManager.getPrice(position)) {
+                JOptionPane.showMessageDialog(null,
+                        "You don't have enough money to buy this place.\ncost : " + cityManager.getPrice(position));
+                return;
+            }
+            int decision = JOptionPane.showConfirmDialog(new JPanel(),
+                    "Will you buy " + cityName + "?\ncost : " + cityManager.getPrice(position));
             if (decision == 0) {
                 if (player.buyCity(cityManager.getPrice(position))) {
                     cityManager.buyCity(position, ID);
                 }
             }
         } else if (owner == ID) {
+            if (cityManager.isBuildlingFull(position)) {
+                return;
+            }
+            if (player.getMoney() < cityManager.getPrice(position)) {
+                JOptionPane.showMessageDialog(null, "You don't have enough money to build a building.\ncost : "
+                        + cityManager.getPriceBuilding(position));
+                return;
+            }
             int decision = JOptionPane.showConfirmDialog(new JPanel(),
                     "Will you build a building on " + cityName + "?");
             if (decision == 0) {
-                if (player.buyBuilding(cityManager.getPriceBuilding(position))) {
-                    cityManager.buyBuilding(position, ID);
+                if (player.canBuyBuilding(cityManager.getPriceBuilding(position))) {
+                    cityManager.buyBuilding(position);
                 }
             }
         } else {
             int toll = -1;
             if (player.hasChance()) {
-                int decision = JOptionPane.showConfirmDialog(new JPanel(), "Will you use chane?");
+                int decision = JOptionPane.showConfirmDialog(new JPanel(), "Will you use chance?");
                 player.popChance();
                 if (decision == 0) {
                     int randomChance = new Random().nextInt(2);
@@ -151,9 +165,9 @@ public class Game extends Thread {
         Point prePoint = pointManager.getPlayerPoint(ID, player.getPosition());
         player.increPosition();
         Point nextPoint = pointManager.getPlayerPoint(ID, player.getPosition());
-        for (int i = 0; i < 50; i++) {
-            Point interPoint = new Point((prePoint.x * (50 - i) + nextPoint.x * i) / 50,
-                    (prePoint.y * (50 - i) + nextPoint.y * i) / 50);
+        for (int i = 0; i < 20; i++) {
+            Point interPoint = new Point((prePoint.x * (20 - i) + nextPoint.x * i) / 20,
+                    (prePoint.y * (20 - i) + nextPoint.y * i) / 20);
             try {
                 gameGUI.playerMove(player, interPoint);
                 Thread.sleep(10);
@@ -166,6 +180,7 @@ public class Game extends Thread {
 
     public void rollDice() {
         dice = new Random().nextInt(6) + 1;
+        // dice = 4;
     }
 
     public void close() {

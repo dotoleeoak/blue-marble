@@ -4,39 +4,40 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class GameGUI extends JPanel {
-    private Image screenImage;
-	private Image background  = new ImageIcon(Main.class.getResource("images/Board/board.png")).getImage();
-	private Image buildImage  = new ImageIcon(Main.class.getResource("images/Board/building.png")).getImage();
-	private Image flag0Image  = new ImageIcon(Main.class.getResource("images/Board/flag0.png")).getImage();
-	private Image flag1Image  = new ImageIcon(Main.class.getResource("images/Board/flag1.png")).getImage();
-	private Image flag2Image  = new ImageIcon(Main.class.getResource("images/Board/flag2.png")).getImage();
-	private Image flag3Image  = new ImageIcon(Main.class.getResource("images/Board/flag3.png")).getImage();
+	private Image screenImage;
+	private Image background = new ImageIcon(Main.class.getResource("images/Board/board.png")).getImage();
+	private Image buildImage = new ImageIcon(Main.class.getResource("images/Board/building.png")).getImage();
+	private Image flag0Image = new ImageIcon(Main.class.getResource("images/Board/flag0.png")).getImage();
+	private Image flag1Image = new ImageIcon(Main.class.getResource("images/Board/flag1.png")).getImage();
+	private Image flag2Image = new ImageIcon(Main.class.getResource("images/Board/flag2.png")).getImage();
+	private Image flag3Image = new ImageIcon(Main.class.getResource("images/Board/flag3.png")).getImage();
 	private Image rollingDice = new ImageIcon(Main.class.getResource("images/rollingDice_3.gif")).getImage();
 	private ImageIcon[] imagePlayer;
-	
-	private ImageIcon backToMenuIcon        = new ImageIcon(Main.class.getResource("images/Board/backToMenu.png"));
-	private ImageIcon backToMenuEnteredIcon = new ImageIcon(Main.class.getResource("images/Board/backToMenuEntered.png"));
-	
+
+	private ImageIcon backToMenuIcon = new ImageIcon(Main.class.getResource("images/Board/backToMenu.png"));
+	private ImageIcon backToMenuEnteredIcon = new ImageIcon(
+			Main.class.getResource("images/Board/backToMenuEntered.png"));
+
 	private JButton closeButton;
 	private JButton rollDiceButton;
 	private JButton backToMenuButton = new JButton(backToMenuIcon);
 	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("images/menuBar.png")));
 
-	//private JLabel rollingDice;
+	// private JLabel rollingDice;
 	public JLabel[] playerLabel;
 	private JLabel[] diceNumber;
 
 	private boolean readyRolling = false;
 	public boolean rollDice = false;
 	Game game;
-	
+
 	CityManager cityManager;
 	PointManager pointManager;
 	int numPlayer;
 	ArrayList<Player> playerList;
 	private int mouseX, mouseY;
-	
-    GameGUI(Game _game){
+
+	GameGUI(Game _game) {
 		game = _game;
 		cityManager = game.cityManager;
 		pointManager = game.pointManager;
@@ -45,7 +46,7 @@ public class GameGUI extends JPanel {
 		setLayout(null);
 		setBounds(0, 0, Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		setBackground(Color.CYAN);
-        imagePlayer = new ImageIcon[4];
+		imagePlayer = new ImageIcon[4];
 		for (int i = 0; i < 4; i++) {
 			imagePlayer[i] = new ImageIcon(Main.class.getResource("images/Board/player" + i + ".png"));
 		}
@@ -70,7 +71,7 @@ public class GameGUI extends JPanel {
 		}
 		for (int i = 0; i < numPlayer; i++) {
 			playerLabel[i].setVisible(true);
-		} 
+		}
 
 		rollDiceButton = new JButton();
 		rollDiceButton.setBounds(540, 240, 200, 176);
@@ -88,12 +89,12 @@ public class GameGUI extends JPanel {
 						onRollingDice();
 						try {
 							Thread.sleep(600);
-						} catch(Exception e) {
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
 						game.rollDice();
 					}
-				}).start(); 
+				}).start();
 			}
 		});
 		add(rollDiceButton);
@@ -134,7 +135,7 @@ public class GameGUI extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Thread.sleep(300);
-				} catch(InterruptedException ex) {
+				} catch (InterruptedException ex) {
 					ex.printStackTrace();
 				}
 				System.exit(0);
@@ -142,25 +143,26 @@ public class GameGUI extends JPanel {
 		});
 	}
 
-	public void onRollingDice(){
+	public void onRollingDice() {
 		rollDice = true;
 		rollDiceButton.setVisible(false);
 	}
-	public void offRollingDice(){
+
+	public void offRollingDice() {
 		rollDice = false;
 	}
 
-	public void onDiceNumber(int _diceNum){
-		diceNumber[_diceNum-1].setVisible(true);
-		
+	public void onDiceNumber(int _diceNum) {
+		diceNumber[_diceNum - 1].setVisible(true);
+
 	}
-	public void offDiceNumber(int _diceNum){
-		diceNumber[_diceNum-1].setVisible(false);
+
+	public void offDiceNumber(int _diceNum) {
+		diceNumber[_diceNum - 1].setVisible(false);
 		rollDiceButton.setVisible(true);
 	}
 
-
-    @Override
+	@Override
 	public void paint(Graphics g) {
 		screenImage = createImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		screenDraw((Graphics2D) screenImage.getGraphics());
@@ -169,41 +171,45 @@ public class GameGUI extends JPanel {
 
 	public void screenDraw(Graphics2D g) {
 		g.drawImage(background, 0, 0, null);
-		for(int i = 0; i < 16; i++){
-			for(int j = 0; j < 2; j++){
-				if(cityManager.builded(i,j)){
-					g.drawImage(buildImage, pointManager.getBuildingPoint(i,j).x, pointManager.getBuildingPoint(i,j).y,null);
+		for (int i = 0; i < 16; i++) {
+			for (int j = 0; j < 2; j++) {
+				if (cityManager.builded(i, j)) {
+					g.drawImage(buildImage, pointManager.getBuildingPoint(i, j).x,
+							pointManager.getBuildingPoint(i, j).y, null);
 				}
 			}
 		}
-		for(int i = 0; i < 16; i++){
-			if(cityManager.owner(i) == 0){
-				g.drawImage(flag0Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y,null);
-			}else if(cityManager.owner(i) == 1){
-				g.drawImage(flag1Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y,null);
-			}else if(cityManager.owner(i) == 2){
-				g.drawImage(flag2Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y,null);
-			}else if(cityManager.owner(i) == 3){
-				g.drawImage(flag3Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y,null);
+		for (int i = 0; i < 16; i++) {
+			if (cityManager.owner(i) == 0) {
+				g.drawImage(flag0Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y, null);
+			} else if (cityManager.owner(i) == 1) {
+				g.drawImage(flag1Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y, null);
+			} else if (cityManager.owner(i) == 2) {
+				g.drawImage(flag2Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y, null);
+			} else if (cityManager.owner(i) == 3) {
+				g.drawImage(flag3Image, pointManager.getflagPoint(i).x, pointManager.getflagPoint(i).y, null);
 			}
 		}
-		if(rollDice) g.drawImage(rollingDice, 540, 220, null);
+		if (rollDice)
+			g.drawImage(rollingDice, 540, 220, null);
 		paintComponents(g);
 		writeMoney(g);
 		repaint();
-    }
-    
-    public void writeMoney(Graphics2D g) {
+	}
+
+	public void writeMoney(Graphics2D g) {
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Arial", Font.BOLD, 30));
 		for (int i = 0; i < numPlayer; i++) {
-			g.drawString("Player" + i + "'s property: " + playerList.get(i).getMoney(), 20 + (Main.SCREEN_WIDTH-400) * (i%2), 60 + (Main.SCREEN_HEIGHT-120) * (i/2));
-			g.drawString("Chance: " + playerList.get(i).getChance(), 20 + (Main.SCREEN_WIDTH-400) * (i%2), 90 + (Main.SCREEN_HEIGHT-120) * (i/2));
+			g.drawString("Player #" + i + "'s balance: " + playerList.get(i).getMoney(),
+					20 + (Main.SCREEN_WIDTH - 400) * (i % 2), 60 + (Main.SCREEN_HEIGHT - 120) * (i / 2));
+			g.drawString("Chance: " + playerList.get(i).getChance(), 20 + (Main.SCREEN_WIDTH - 400) * (i % 2),
+					90 + (Main.SCREEN_HEIGHT - 120) * (i / 2));
 		}
 	}
 
-	public void playerMove(Player _nowPlayer, Point _interPoint){
+	public void playerMove(Player _nowPlayer, Point _interPoint) {
 		JLabel label = playerLabel[_nowPlayer.getID()];
 		label.setLocation(_interPoint);
 
