@@ -1,31 +1,24 @@
 
-// import java.util.ArrayList;
-import java.awt.Point;
+/*
+Work of each team member
+Choi jaemin(2019314992) : Modify class structure to use properly in Game and City class
+Seo Kangmin(2019310155) : Designed Class structure, added getter and setter, code modification for lab
+*/
 
-import javax.swing.JOptionPane;
-
-public class Player extends Thread {
+public class Player {
 	private int ID;
-	private String name;
 	private int money;
 	private int position;
 	private int numThesis;
 	private int numChance;
-	private int live = 1;
-	private PointManager coordinateManager;
-	private Game game;
-	private Point nowPoint;
 	// ArrayList<String> chance;
 
-	Player(int _id, String _name, Game _game) {
+	Player(int _id) {
 		ID = _id;
-		name = _name;
 		money = 1500;
 		position = 0;
 		numThesis = 0;
 		numChance = 0;
-		game = _game;
-		// chance = new ArrayList<String>();
 	}
 
 	public void increPosition() {

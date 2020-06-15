@@ -1,3 +1,10 @@
+
+/*
+Work of each team member
+Park Jaesung(2019314505) : constructor, and make run(), reachGround(), inCity(), move(), close() 
+Choi jaemin(2019314992) : Implement overall logic (earning money, buying city, etc.)
+Seo Kangmin(2019310155) : improved function call flow, lab & chance situation, Message/Confirmation Dialogs, multithreading with GameGUI
+*/
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,13 +29,13 @@ public class Game extends Thread {
         playerIdx = 0;
         playerList = new ArrayList<Player>();
 
-        playerList.add(new Player(0, "First", this));
-        playerList.add(new Player(1, "Second", this));
+        playerList.add(new Player(0));
+        playerList.add(new Player(1));
         if (numPlayer >= 3) {
-            playerList.add(new Player(2, "Third", this));
+            playerList.add(new Player(2));
         }
         if (numPlayer == 4) {
-            playerList.add(new Player(3, "Fourth", this));
+            playerList.add(new Player(3));
         }
         // moved = false;
         controller = c;

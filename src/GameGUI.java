@@ -1,8 +1,16 @@
+
+/*
+Work of each team member
+Park Jaesung(2019314505) : write writeMoney(), paint() and screenDraw() for drawing. prototype of button and image
+Choi jaemin(2019314992) : Implement player moving animation
+Seo Kangmin(2019310155) : Multithreading with Game, improved code readability, removed unnecessary functions
+*/
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
+@SuppressWarnings("serial")
 public class GameGUI extends JPanel {
 	private Image screenImage;
 	private Image background = new ImageIcon(Main.class.getResource("images/Board/board.png")).getImage();
@@ -14,20 +22,14 @@ public class GameGUI extends JPanel {
 	private Image rollingDice = new ImageIcon(Main.class.getResource("images/rollingDice_3.gif")).getImage();
 	private ImageIcon[] imagePlayer;
 
-	private ImageIcon backToMenuIcon = new ImageIcon(Main.class.getResource("images/Board/backToMenu.png"));
-	private ImageIcon backToMenuEnteredIcon = new ImageIcon(
-			Main.class.getResource("images/Board/backToMenuEntered.png"));
-
 	private JButton closeButton;
 	private JButton rollDiceButton;
-	private JButton backToMenuButton = new JButton(backToMenuIcon);
 	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("images/menuBar.png")));
 
 	// private JLabel rollingDice;
 	public JLabel[] playerLabel;
 	private JLabel[] diceNumber;
 
-	private boolean readyRolling = false;
 	public boolean rollDice = false;
 	Game game;
 
