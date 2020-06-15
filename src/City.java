@@ -30,22 +30,22 @@ class CityManager {
 
 	CityManager() {
 		arrayCity = new ArrayList<City>();
-		arrayCity.add(new City(0, "½ÃÀÛ"));
-		arrayCity.add(new City(100, "¼ö¼º°ü"));
-		arrayCity.add(new City(120, "º¥Á¨°í¸®°ü"));
-		arrayCity.add(new City(150, "º¹ÁöÈ¸°ü"));
-		arrayCity.add(new City(0, "Âù½º"));
-		arrayCity.add(new City(200, "ÇĞ»ıÈ¸°ü"));
-		arrayCity.add(new City(250, "Á¦1°øÇĞ°ü"));
-		arrayCity.add(new City(350, "Á¦2°øÇĞ°ü"));
+		arrayCity.add(new City(0, "ì‹œì‘"));
+		arrayCity.add(new City(100, "ìˆ˜ì„±ê´€"));
+		arrayCity.add(new City(120, "ë²¤ì  ê³ ë¦¬ê´€"));
+		arrayCity.add(new City(150, "ë³µì§€íšŒê´€"));
+		arrayCity.add(new City(0, "ì°¬ìŠ¤"));
+		arrayCity.add(new City(200, "í•™ìƒíšŒê´€"));
+		arrayCity.add(new City(250, "ì œ1ê³µí•™ê´€"));
+		arrayCity.add(new City(350, "ì œ2ê³µí•™ê´€"));
 		arrayCity.add(new City(0, "Lab"));
-		arrayCity.add(new City(400, "Á¾ÇÕ¿¬±¸µ¿"));
-		arrayCity.add(new City(500, "»êÇĞÇù·Â¼¾ÅÍ"));
-		arrayCity.add(new City(600, "¹İµµÃ¼°ü"));
-		arrayCity.add(new City(0, "Âù½º"));
-		arrayCity.add(new City(800, "¾àÇĞ°ü"));
-		arrayCity.add(new City(1000, "ÀÇÇĞ°ü"));
-		arrayCity.add(new City(1500, "µğµµ"));
+		arrayCity.add(new City(400, "ì¢…í•©ì—°êµ¬ë™"));
+		arrayCity.add(new City(500, "ì‚°í•™í˜‘ë ¥ì„¼í„°"));
+		arrayCity.add(new City(600, "ë°˜ë„ì²´ê´€"));
+		arrayCity.add(new City(0, "ì°¬ìŠ¤"));
+		arrayCity.add(new City(800, "ì•½í•™ê´€"));
+		arrayCity.add(new City(1000, "ì˜í•™ê´€"));
+		arrayCity.add(new City(1500, "ë””ë„"));
 	}
 
 	public String getName(int _position) {
