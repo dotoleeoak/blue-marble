@@ -166,7 +166,7 @@ public class Menu extends JPanel {
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					isSelecting = false;
-					controller.showGame(numPlayer);
+					controller.startGame(numPlayer);
 				}
 			});
 			add(button);
