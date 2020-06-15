@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/OneDrive - g.skku.edu/수업자료/2-1/JAVA/BlueMarble/src/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="jl1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
