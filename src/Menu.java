@@ -7,7 +7,8 @@ public class Menu extends JPanel {
 	private Image background                 = new ImageIcon(Main.class.getResource("images/introBackground.png")).getImage();
 	private Image selectPanelBackgroundImage = new ImageIcon(Main.class.getResource("images/selectPanelBackground.png")).getImage();
 	private Image selectPanelImage           = new ImageIcon(Main.class.getResource("images/MainMenu/selectPanel.png")).getImage();
-	
+	private Image ruleImage = new ImageIcon(Main.class.getResource("images/MainMenu/rulePanel.png"))
+			.getImage();
 	enum Button { CLOSE, START, RULE, QUIT; }
 	private JButton[] menuButtons;
 	private JButton[] numPlayerButtons;
@@ -19,7 +20,7 @@ public class Menu extends JPanel {
 
 	private int mouseX, mouseY;
 	private boolean isSelecting;
-
+	private boolean rulePopUp = false;
 	Main controller;
 
 	Menu(Main c) {
@@ -56,6 +57,9 @@ public class Menu extends JPanel {
 	
 	public void screenDraw(Graphics2D g) {
 		g.drawImage(background, 0, 0, null);
+		if(rulePopUp){
+			g.drawImage(ruleImage, 540, 25,null);
+		}
 		if (isSelecting) {
 			g.drawImage(selectPanelBackgroundImage, 0, 30, null);
 			g.drawImage(selectPanelImage, 440, 260, null);
@@ -95,6 +99,7 @@ public class Menu extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				/* TODO: Show rules */
+				rulePopUp = !rulePopUp;
 			}
 		});
 		
@@ -141,6 +146,7 @@ public class Menu extends JPanel {
 	}
 	
 	public void selectPlayer() {
+		rulePopUp = false;
 		isSelecting = true;
 		for (JButton button : menuButtons) {
 			if (!button.getName().equals("close")) {
